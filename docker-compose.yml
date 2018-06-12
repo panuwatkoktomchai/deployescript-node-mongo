@@ -1,0 +1,43 @@
+version: '2'
+
+services:
+  web-apiwater4life:
+    image: hub.piesoft.net/php:7-apache
+    container_name: php.api.water4life
+    hostname: php-api-water4life
+    restart: always
+    networks:
+      - main
+      - apiwater4life
+    volumes:
+      - /srv/apiwater4life/code/website:/var/www/html
+    environment:
+      - VIRTUAL_HOST=demo.api.water4life.piesoft.net
+      - LETSENCRYPT_HOST=demo.api.water4life.piesoft.net
+      - LETSENCRYPT_EMAIL=water4life@piesoft.net
+
+  db-apiwater4life:
+    image: mariadb
+    container_name: mariadb.api.water4life
+    hostname: mariadb-apiwater4life
+    restart: always
+    networks:
+      - apiwater4life
+    volumes:
+      - /srv/apiwater4life/mariadb_apiwater4life:/var/lib/mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=95UynNktfYBa
+      - MYSQL_DATABASE=ais_water4life
+      - MYSQL_USER=admin
+      - MYSQL_PASSWORD=apiwater4lifepasswd
+      - MYSQL_ALLOW_EMPTY_PASSWORD=no
+    ports:
+        - "33306:3306"
+
+networks:
+  apiwater4life:
+    external:
+      name: apiwater4life-network
+  main:
+    external:
+      name: main-network
