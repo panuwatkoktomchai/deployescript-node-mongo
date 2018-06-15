@@ -1,8 +1,7 @@
-version: '2'
-
+version: '3'
 services:
   web-apiwater4life:
-    image: hub.piesoft.net/php:7-apache
+    image: php:7.1-apache
     container_name: php.api.water4life
     hostname: php-api-water4life
     restart: always
@@ -10,7 +9,10 @@ services:
       - main
       - apiwater4life
     volumes:
-      - /srv/apiwater4life/code/website:/var/www/html
+      - {{ project_dir }}/code/website:/var/www/html
+      - {{ project_dir }}/apache:/etc/apache2
+    ports:
+      - "80:80"
     environment:
       - VIRTUAL_HOST=demo.api.water4life.piesoft.net
       - LETSENCRYPT_HOST=demo.api.water4life.piesoft.net
@@ -24,12 +26,12 @@ services:
     networks:
       - apiwater4life
     volumes:
-      - /srv/apiwater4life/mariadb_apiwater4life:/var/lib/mysql
+      - {{ project_dir }}/mariadb_apiwater4life:/var/lib/mysql
     environment:
-      - MYSQL_ROOT_PASSWORD=95UynNktfYBa
-      - MYSQL_DATABASE=ais_water4life
-      - MYSQL_USER=admin
-      - MYSQL_PASSWORD=apiwater4lifepasswd
+      - MYSQL_ROOT_PASSWORD={{ db_root_password }}
+      - MYSQL_DATABASE={{ db_name }}
+      - MYSQL_USER={{ db_user }}
+      - MYSQL_PASSWORD={{ db_password }}
       - MYSQL_ALLOW_EMPTY_PASSWORD=no
     ports:
         - "33306:3306"
