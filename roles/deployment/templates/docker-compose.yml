@@ -11,8 +11,6 @@ services:
     volumes:
       - {{ project_dir }}/code/website:/var/www/html
       - {{ project_dir }}/apache:/etc/apache2
-    ports:
-      - "80:80"
     environment:
       - VIRTUAL_HOST=demo.api.water4life.piesoft.net
       - LETSENCRYPT_HOST=demo.api.water4life.piesoft.net
