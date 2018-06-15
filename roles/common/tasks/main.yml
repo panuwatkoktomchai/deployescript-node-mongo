@@ -1,0 +1,25 @@
+---
+- name: "Create temporary directory"
+  file:
+    path: "{{ temporary_dir }}/{{ item }}"
+    state: directory
+  with_items:
+    - "key"
+    - "code"
+
+- name: "Create mount directory"
+  file:
+    path: "{{ project_dir }}/{{ item }}"
+    state: directory
+  with_items:
+    - "code/website"
+  become: true
+  become_user: root
+
+- name: "Create docker networks"
+  shell: docker network create {{ item }}
+  with_items:
+    - "main-network"
+    - "apiwater4life-network"
+  ignore_errors: yes
+

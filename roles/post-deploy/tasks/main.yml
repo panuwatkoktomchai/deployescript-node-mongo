@@ -1,0 +1,5 @@
+---
+- name: "Delete temporary directory"
+  file:
+    path: "{{ temporary_dir }}"
+    state: absent

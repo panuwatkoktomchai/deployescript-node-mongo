@@ -1,0 +1,61 @@
+---
+- name: "Sent file to target server"
+  copy:
+    dest: "{{ temporary_dir }}/key/"
+    src: "{{ item }}"
+    mode: 0600
+  with_items:
+    - "deploy-key"
+
+- name: "Sent file to target server with changes variables"
+  template:
+    src: "{{ item }}"
+    dest: "{{ temporary_dir }}/composefile/"
+  with_items:
+    - "docker-compose.yml"
+
+- name: "Clone deployment scripts"
+  git:
+    repo: git@projects.piesoft.net:DWR/Water4Life/API.git
+    dest: "{{ temporary_dir }}/code"
+    accept_hostkey: yes
+    key_file: "{{ temporary_dir }}/key/deploy-key"
+
+- name: "Copy source code to mount directory"
+  shell: rsync -Pav --delete --recursive {{ temporary_dir }}/code/ {{ project_dir }}/code/website/
+  become: true
+  become_user: root
+
+- name: "Change permission in source code directory"
+  file:
+    path: "{{ project_dir }}/code/website"
+    state: directory
+    owner: www-data
+    group: www-data
+    recurse: yes
+  become: true
+  become_user: root
+
+- name: "Run composer install"
+  shell: docker run --rm -v {{ project_dir }}/code/website:/app composer install
+
+- name: "Create env file"
+  shell: cp {{ project_dir }}/code/website/.env.example {{ project_dir }}/code/website/.env
+  become: true
+  become_user: root
+
+- name: "Gen key"
+  shell: docker run --rm -v {{ project_dir }}/code/website:/code php:7.2.1 bash -c 'cd /code && php artisan key:generate'
+
+- name: "Sent apache configuration file to server"
+  copy:
+    dest: "{{ temporary_dir }}"
+    src: apache
+
+- name: "Move apache configuration file to mount dir"
+  shell: rsync -Pav --delete --recursive {{ temporary_dir }}/apache {{ project_dir }}/
+  become: true
+  become_user: root
+
+- name: "Start container with docker-compose"
+  shell: docker-compose -f {{ temporary_dir }}/composefile/docker-compose.yml up -d
