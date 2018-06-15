@@ -23,3 +23,9 @@
     - "apiwater4life-network"
   ignore_errors: yes
 
+- name: "Remove running container"
+  shell: docker rm -f {{ item }}
+  with_items:
+    - "{{ php_container_name }}"
+    - "{{ db_container_name }}"
+  ignore_errors: yes
