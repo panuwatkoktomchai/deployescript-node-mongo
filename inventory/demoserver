@@ -5,6 +5,16 @@
 ansible_user=piesoft
 project_dir=/srv/apiwater4life
 temporary_dir=/tmp/water4life
+
+#App
+app_name=Water4life-API
+app_env=demoserver
+app_key=base64:JX3Qh706IY4X4vaprbimpWnq4I1i4+SdOrjmDfMiccw=
+app_url=https://demo.api.water4life.piesoft.net
+
+#Database
+db_host=mariadb.api.water4life
+db_port=3306
 db_user=admin
 db_password=apiwater4lifepasswd
 db_name=ais_water4life

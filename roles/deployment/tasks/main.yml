@@ -39,13 +39,15 @@
 - name: "Run composer install"
   shell: docker run --rm -v {{ project_dir }}/code/website:/app composer install
 
+- name: "Run npm install"
+  shell: docker run --rm -v {{ project_dir }}/code/website:/app -w /app node:9 npm install
+
 - name: "Create env file"
-  shell: cp {{ project_dir }}/code/website/.env.example {{ project_dir }}/code/website/.env
+  template: 
+    src: ".env" 
+    dest: "{{ project_dir }}/code/website/
   become: true
   become_user: root
-
-- name: "Gen key"
-  shell: docker run --rm -v {{ project_dir }}/code/website:/code php:7.2.1 bash -c 'cd /code && php artisan key:generate'
 
 - name: "Sent apache configuration file to server"
   copy:
