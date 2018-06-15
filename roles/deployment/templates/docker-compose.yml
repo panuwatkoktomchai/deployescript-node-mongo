@@ -2,7 +2,7 @@ version: '3'
 services:
   web-apiwater4life:
     image: php:7.1-apache
-    container_name: php.api.water4life
+    container_name: {{ php_container_name }}
     hostname: php-api-water4life
     restart: always
     networks:
@@ -18,13 +18,13 @@ services:
 
   db-apiwater4life:
     image: mariadb
-    container_name: {{ db_host }}
+    container_name: {{ db_container_name }}
     hostname: mariadb-apiwater4life
     restart: always
     networks:
       - apiwater4life
     volumes:
-      - {{ project_dir }}/mariadb_apiwater4life:/var/lib/mysql
+      - {{ project_dir }}/db/data:/var/lib/mysql
     environment:
       - MYSQL_ROOT_PASSWORD={{ db_root_password }}
       - MYSQL_DATABASE={{ db_name }}
