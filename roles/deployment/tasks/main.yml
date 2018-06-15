@@ -44,8 +44,8 @@
 
 - name: "Create env file"
   template: 
-    src: ".env" 
-    dest: "{{ project_dir }}/code/website/
+    src: ".env"
+    dest: "{{ project_dir }}/code/website/"
   become: true
   become_user: root
 
