@@ -60,12 +60,12 @@
   become: true
   become_user: root
 
-- name: "Clean DB data mount dir"
-  file:
-    path: "{{ project_dir }}/db/data"
-    state: absent
-  become: true
-  become_user: root
+#- name: "Clean DB data mount dir"
+  #file:
+    #path: "{{ project_dir }}/db/data"
+    #state: absent
+  #become: true
+  #become_user: root
 
 - name: "Start container with docker-compose"
   shell: docker-compose -f {{ temporary_dir }}/composefile/docker-compose.yml up -d
