@@ -52,7 +52,7 @@
 
 - name: "Sent apache configuration file to server"
   copy:
-    dest: "{{ temporary_dir }}/apache"
+    dest: "{{ temporary_dir }}/apache/"
     src: 000-default.conf
 
 - name: "Move apache configuration file to mount dir"
