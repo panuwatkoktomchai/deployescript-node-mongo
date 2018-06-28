@@ -52,8 +52,8 @@
 
 - name: "Sent apache configuration file to server"
   copy:
-    dest: "{{ temporary_dir }}"
-    src: apache
+    dest: "{{ temporary_dir }}/apache"
+    src: 000-default.conf
 
 - name: "Move apache configuration file to mount dir"
   shell: rsync -Pav --delete --recursive {{ temporary_dir }}/apache {{ project_dir }}/

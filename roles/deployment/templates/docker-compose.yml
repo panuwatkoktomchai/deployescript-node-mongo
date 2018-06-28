@@ -10,7 +10,7 @@ services:
       - apiwater4life
     volumes:
       - {{ project_dir }}/code/website:/var/www/html
-      - {{ project_dir }}/apache:/etc/apache2
+      - {{ project_dir }}/apache:/etc/apache2/sites-availables
     environment:
       - VIRTUAL_HOST=demo.api.water4life.piesoft.net
       - LETSENCRYPT_HOST=demo.api.water4life.piesoft.net
