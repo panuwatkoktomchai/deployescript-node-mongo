@@ -23,6 +23,8 @@ services:
     restart: always
     networks:
       - apiwater4life
+    ports:
+      - "{{ db_port }}:3306"
     volumes:
       - {{ project_dir }}/db/data:/var/lib/mysql
     environment:
