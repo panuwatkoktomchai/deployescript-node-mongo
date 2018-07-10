@@ -88,6 +88,9 @@
 
 - name: "Enable Token Generator"
   shell: docker exec {{ php_container_name }} bash -c 'cd /var/www/html && php artisan passport:install'
+  
+- name: "Generate API documentation"
+  shell: docker exec {{ php_container_name }} bash -c 'cd /var/www/html && php artisan api:generate --routePrefix="api/*"'
 
 - name: "Enabled mod_rewrite on apache2"
   shell: docker exec {{ php_container_name }} bash -c 'a2enmod rewrite'
