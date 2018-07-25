@@ -84,7 +84,7 @@
   shell: docker exec {{ php_container_name }} bash -c 'cd /var/www/html && php artisan migrate:rollback'
 
 - name: "Refresh DB"
-  shell: docker exec {{ php_container_name }} bash -c 'cd /var/www/html && php artisan migrate:refresh --seed'
+  shell: docker exec {{ php_container_name }} bash -c 'cd /var/www/html && php artisan migrate:fresh'
 
 - name: "Enable Token Generator"
   shell: docker exec {{ php_container_name }} bash -c 'cd /var/www/html && php artisan passport:install'
