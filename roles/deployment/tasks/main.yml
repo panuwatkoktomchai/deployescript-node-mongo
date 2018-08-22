@@ -80,9 +80,6 @@
 - name: "Migrate DB"
   shell: docker exec {{ php_container_name }} bash -c 'cd /var/www/html && php artisan migrate'
 
-- name: "Migrate DB rollback"
-  shell: docker exec {{ php_container_name }} bash -c 'cd /var/www/html && php artisan migrate:rollback'
-
 - name: "Dump Auto Load"
   shell: docker run --rm -v {{ project_dir }}/code/website:/app composer dump-autoload
 
@@ -90,8 +87,11 @@
   shell: docker exec {{ php_container_name }} bash -c 'cd /var/www/html && php artisan passport:install'
 
 - name: "Refresh DB "
-  shell: docker exec {{ php_container_name }} bash -c 'cd /var/www/html && php artisan migrate:refresh --seed'
+  shell: docker exec {{ php_container_name }} bash -c 'cd /var/www/html && php artisan migrate:fresh'
   
+- name: "Seed DB "
+  shell: docker exec {{ php_container_name }} bash -c 'cd /var/www/html && php artisan db:seed'
+
 - name: "Generate API documentation"
   shell: docker exec {{ php_container_name }} bash -c 'cd /var/www/html && php artisan api:generate --routePrefix="api/*"'   
 
