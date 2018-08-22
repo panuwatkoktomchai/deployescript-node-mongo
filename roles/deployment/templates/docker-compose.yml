@@ -29,8 +29,6 @@ services:
       - MYSQL_USER={{ db_user }}
       - MYSQL_PASSWORD={{ db_password }}
       - MYSQL_ALLOW_EMPTY_PASSWORD=no
-    ports:
-        - "33306:3306"
 
 networks:
   apiwater4life:

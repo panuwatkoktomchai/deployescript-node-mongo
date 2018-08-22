@@ -82,6 +82,9 @@
 
 - name: "Enable Token Generator"
   shell: docker exec {{ php_container_name }} bash -c 'cd /var/www/html && php artisan passport:install'
+  
+- name: "Generate API documentation"
+  shell: docker exec {{ php_container_name }} bash -c 'cd /var/www/html && php artisan api:generate --routePrefix="api/*"'
 
 - name: "Seed DB "
   shell: docker exec {{ php_container_name }} bash -c 'cd /var/www/html && php artisan db:seed'
