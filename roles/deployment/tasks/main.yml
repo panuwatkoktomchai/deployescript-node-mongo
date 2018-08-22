@@ -77,18 +77,12 @@
   pause:
     seconds: 10
 
-- name: "Migrate DB"
-  shell: docker exec {{ php_container_name }} bash -c 'cd /var/www/html && php artisan migrate'
-
-- name: "Dump Auto Load"
-  shell: docker run --rm -v {{ project_dir }}/code/website:/app composer dump-autoload
+- name: "Clear database befor migrate"
+  shell: docker exec {{ php_container_name }} bash -c 'cd /var/www/html && php artisan migrate:fresh'
 
 - name: "Enable Token Generator"
   shell: docker exec {{ php_container_name }} bash -c 'cd /var/www/html && php artisan passport:install'
 
-- name: "Refresh DB "
-  shell: docker exec {{ php_container_name }} bash -c 'cd /var/www/html && php artisan migrate:fresh'
-  
 - name: "Seed DB "
   shell: docker exec {{ php_container_name }} bash -c 'cd /var/www/html && php artisan db:seed'
 
