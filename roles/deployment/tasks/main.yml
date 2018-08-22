@@ -56,7 +56,7 @@
     src: 000-default.conf
 
 - name: "Move apache configuration file to mount dir"
-  shell: rsync -Pav --delete --recursive {{ temporary_dir }}/apache {{ project_dir }}/
+  shell: rsync -Pav --delete --recursive {{ temporary_dir }}/apache/ {{ project_dir }}/apache/
   become: true
   become_user: root
 
