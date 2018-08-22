@@ -77,13 +77,7 @@
   pause:
     seconds: 10
 
-- name: "Migrate DB"
-  shell: docker exec {{ php_container_name }} bash -c 'cd /var/www/html && php artisan migrate'
-
-- name: "Migrate DB rollback"
-  shell: docker exec {{ php_container_name }} bash -c 'cd /var/www/html && php artisan migrate:rollback'
-
-- name: "Refresh DB"
+- name: "Clear database befor migrate"
   shell: docker exec {{ php_container_name }} bash -c 'cd /var/www/html && php artisan migrate:fresh'
 
 - name: "Enable Token Generator"
@@ -92,13 +86,19 @@
 - name: "Generate API documentation"
   shell: docker exec {{ php_container_name }} bash -c 'cd /var/www/html && php artisan api:generate --routePrefix="api/*"'
 
+- name: "Seed DB "
+  shell: docker exec {{ php_container_name }} bash -c 'cd /var/www/html && php artisan db:seed'
+
+- name: "Generate API documentation"
+  shell: docker exec {{ php_container_name }} bash -c 'cd /var/www/html && php artisan api:generate --routePrefix="api/*"'   
+
 - name: "Enabled mod_rewrite on apache2"
   shell: docker exec {{ php_container_name }} bash -c 'a2enmod rewrite'
 
 - name: "Restart service apache2"
   shell: docker restart {{ php_container_name }}
 
-- name: "Set up cron job"
-  shell: echo "* * * * * root /usr/bin/docker exec {{ php_container_name }} /bin/bash -c 'cd /var/www/html && php artisan schedule:run' >> /var/log/water4life_api_cron.log" > /etc/cron.d/water4life
-  become: true
-  become_user: root
+  #- name: "Set up cron job"
+  #  shell: echo "* * * * * root /usr/bin/docker exec {{ php_container_name }} /bin/bash -c "cd /var/www/html && php artisan schedule:run" >> /var/log/water4life_api_cron.log" > /etc/cron.d/water4life
+  #  become: true
+  #  become_user: root

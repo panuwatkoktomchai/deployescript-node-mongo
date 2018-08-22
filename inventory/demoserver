@@ -6,7 +6,6 @@ ansible_user=piesoft
 ansible_port=2020
 project_dir=/opt/data/w4l
 temporary_dir=/tmp/w4l
-branch=develop
 php_container_name=w4l.php
 
 #App
@@ -27,5 +26,5 @@ news_dwr_host=202.129.59.68
 news_dwr_port=3306
 news_dwr_database=dwrthai
 news_dwr_user=piesoft
-news_dwr_pass="Mobile DWR"
+news_dwr_pass="Mobile"
 
