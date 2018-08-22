@@ -101,7 +101,7 @@
 - name: "Restart service apache2"
   shell: docker restart {{ php_container_name }}
 
-- name: "Set up cron job"
-  shell: echo "* * * * * root /usr/bin/docker exec {{ php_container_name }} /bin/bash -c "cd /var/www/html && php artisan schedule:run" >> /var/log/water4life_api_cron.log" > /etc/cron.d/water4life
-  become: true
-  become_user: root
+  #- name: "Set up cron job"
+  #  shell: echo "* * * * * root /usr/bin/docker exec {{ php_container_name }} /bin/bash -c "cd /var/www/html && php artisan schedule:run" >> /var/log/water4life_api_cron.log" > /etc/cron.d/water4life
+  #  become: true
+  #  become_user: root
