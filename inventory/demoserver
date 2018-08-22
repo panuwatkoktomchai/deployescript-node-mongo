@@ -5,8 +5,7 @@ staging-01.piesoft.net
 ansible_user=piesoft
 ansible_port=2020
 project_dir=/opt/data/w4l
-temporary_dir=/tmp/water4life
-branch=develop
+temporary_dir=/tmp/w4l
 php_container_name=w4l.php
 
 #App

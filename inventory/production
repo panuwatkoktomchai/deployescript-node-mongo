@@ -5,7 +5,7 @@ prod-02.piesoft.net
 ansible_user=piesoft
 ansible_port=2020
 project_dir=/opt/data/w4l
-temporary_dir=/tmp/water4life
+temporary_dir=/tmp/w4l
 php_container_name=w4l.php
 
 #App
