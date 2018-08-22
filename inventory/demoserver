@@ -1,9 +1,10 @@
 [server]
-27.254.94.148
+staging-01.piesoft.net
 
 [server:vars]
 ansible_user=piesoft
-project_dir=/srv/apiwater4life
+ansible_port=2020
+project_dir=/opt/data/w4l
 temporary_dir=/tmp/water4life
 branch=develop
 php_container_name=php.api.water4life
