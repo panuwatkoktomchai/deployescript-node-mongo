@@ -94,6 +94,9 @@
 
 - name: "Enabled mod_rewrite on apache2"
   shell: docker exec {{ php_container_name }} bash -c 'a2enmod rewrite'
+  
+- name: "Set storage-cache-data change own for root is www-data "
+  shell: docker exec {{ php_container_name }} bash -c 'chown www-data:www-data -R /var/www/html/storage/framework/cache/data/'
 
 - name: "Restart service apache2"
   shell: docker restart {{ php_container_name }}
