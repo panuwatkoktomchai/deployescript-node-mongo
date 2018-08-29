@@ -79,9 +79,6 @@
     
 - name: "Link part file and photo"
   shell: docker exec -u 33 {{ php_container_name }} bash -c 'cd /var/www/html && ln -s /var/www/html/storage/app/public public/storage'
-  
-- name: "Pull git lfs file"
-  shell: docker exec {{ php_container_name }} bash -c 'cd /var/www/html && ln -s /var/www/html/storage/app/public public/storage'
 
 - name: "Clear database befor migrate"
   shell: docker exec {{ php_container_name }} bash -c 'cd /var/www/html && php artisan migrate:fresh'
