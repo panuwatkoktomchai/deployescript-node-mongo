@@ -76,6 +76,9 @@
 - name: "Waiting for db up 10s ..."
   pause:
     seconds: 10
+    
+- name: "Link part file and photo"
+  shell: docker exec -u 33 {{ php_container_name }} bash -c 'cd /var/www/html && ln -s /var/www/html/storage/app/public public/storage'
 
 - name: "Clear database befor migrate"
   shell: docker exec {{ php_container_name }} bash -c 'cd /var/www/html && php artisan migrate:fresh'
@@ -89,14 +92,15 @@
 - name: "Seed DB "
   shell: docker exec {{ php_container_name }} bash -c 'cd /var/www/html && php artisan db:seed'
 
-- name: "Generate API documentation"
-  shell: docker exec {{ php_container_name }} bash -c 'cd /var/www/html && php artisan api:generate --routePrefix="api/*"'   
-
 - name: "Enabled mod_rewrite on apache2"
   shell: docker exec {{ php_container_name }} bash -c 'a2enmod rewrite'
   
 - name: "Set storage-cache-data change own for root is www-data "
   shell: docker exec {{ php_container_name }} bash -c 'chown www-data:www-data -R /var/www/html/storage/framework/cache/data/'
+  
+- name: "Set permission pubilc js path is non access for Security"
+  shell: docker exec {{ php_container_name }} bash -c 'cd /var/www/html && chmod 600 -R /var/www/html/public/js'
+
 
 - name: "Restart service apache2"
   shell: docker restart {{ php_container_name }}
