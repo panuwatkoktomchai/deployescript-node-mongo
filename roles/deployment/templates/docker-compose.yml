@@ -11,6 +11,8 @@ services:
     volumes:
       - {{ project_dir }}/code/website:/var/www/html
       - {{ project_dir }}/apache:/etc/apache2/sites-available
+    ports:
+      - "8888:80"
 
   db-apiwater4life:
     image: mariadb
