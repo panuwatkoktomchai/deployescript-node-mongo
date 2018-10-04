@@ -1,0 +1,22 @@
+version: "3.5"
+services:
+  ais-cms:
+    image: nginx
+    container_name: {{ container_name }}
+    hostname: ais-cms
+    volumes:
+      - "{{ project_dir }}/cms/html:/usr/share/nginx/html"
+    networks:
+      - ais
+      - main
+    environment:
+      API_URL: "{{ api.api_url }}"
+    restart: always
+
+networks:
+  ais:
+    external:
+      name: ais-network
+  main:
+    external:
+      name: main-network

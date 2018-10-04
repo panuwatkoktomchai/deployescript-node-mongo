@@ -1,0 +1,3 @@
+# Project configuration
+project_dir: /opt/data/w4l
+working_dir: /tmp/w4l

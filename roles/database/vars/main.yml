@@ -1,0 +1,9 @@
+# Database configuration
+user: "admin"
+password: "apiwater4lifepasswd"
+root_password: "qOWa1zTDBeiYZsj5"
+database: "water4life"
+public_port: 5374
+
+# Container configuration
+container_name: "w4l.db"
