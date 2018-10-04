@@ -3,6 +3,4 @@
   roles:
     - "common"
     - "database"
-    - "api"
-    - "cms"
     - "post-deploy"

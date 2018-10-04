@@ -1,0 +1,66 @@
+---
+- name: "Including variable from database roles"
+  include_vars:
+    file: roles/api/vars/main.yml
+    name: api
+
+- name: "Sending docker-compose to server"
+  template:
+    src: "{{ item }}"
+    dest: "{{ working_dir }}/cms/"
+  with_items:
+    - "docker-compose.yml"
+
+- name: "Removing existing container"
+  docker_service:
+    project_src: "{{ working_dir }}/cms"
+    state: absent
+
+- name: "Freshing data in proeject directory"
+  file:
+    path: "{{ project_dir }}/cms"
+    state: absent
+  become: yes
+  become_user: root
+
+- name: "Cloning source from git repository"
+  git:
+    repo: "{{ cms_repo }}"
+    version: "{{ cms_branch }}"
+    dest: "{{ working_dir }}/cms/html"
+    accept_hostkey: yes
+    force: yes
+    key_file: "{{ working_dir }}/common/deploy-key"
+
+- name: "Installing vue packages using yarn"
+  command: docker run --rm -v {{ working_dir }}/cms/html:/app -w /app 
+           node:10.10 yarn add @vue/cli @vue/cli-init @vue/cli-service-global @vue/cli-service nuxt vue-router vuex bootstrap-vue
+
+- name: "Installing packages from 'package.json' using npm"
+  command: docker run --rm -v {{ working_dir }}/cms/html:/app -w /app 
+           node:10.10 npm install
+
+- name: "Installing packages from 'package.json' using yarn"
+  command: docker run --rm -v {{ working_dir }}/cms/html:/app -w /app 
+           node:10.10 yarn install
+
+- name: "Building application to HTML, CSS, JS files"      
+  command: docker run --rm -v {{ working_dir }}/cms/html:/app -w /app
+           node:10.10 yarn build
+
+- name: "Creating cms directory"
+  file:
+    path: "{{ project_dir }}/cms/html"
+    state: directory
+  become: true
+  become_user: root
+
+- name: "Copying builded files to Project directory"
+  command: rsync -Pav {{ working_dir }}/cms/html/dist/ {{ project_dir }}/cms/html/
+  become: true
+  become_user: root
+
+- name: "Starting Front-end server using docker-compose"
+  docker_service:
+    project_src: "{{ working_dir }}/cms"
+    state: present

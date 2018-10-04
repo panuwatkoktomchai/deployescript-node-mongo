@@ -1,0 +1,81 @@
+---
+- name: "Include variable from database roles"
+  include_vars:
+    file: roles/database/vars/main.yml
+    name: db
+
+- name: "Sending docker-compose to server"
+  template:
+    src: "{{ item }}"
+    dest: "{{ working_dir }}/api/"
+  with_items:
+    - "docker-compose.yml"
+
+- name: "Removing existing API container"
+  docker_service:
+    project_src: "{{ working_dir }}/api"
+    state: absent
+
+- name: "Freshing data"
+  file:
+    path: "{{ project_dir }}/api"
+    state: absent
+  become: yes
+  become_user: root
+
+- name: "Cloning source from git repository"
+  git:
+    repo: "{{ api_repo }}"
+    version: "{{ api_branch }}"
+    dest: "{{ project_dir }}/api/html"
+    accept_hostkey: yes
+    force: yes
+    key_file: "{{ working_dir }}/common/deploy-key"
+  become: yes
+  become_user: root
+
+- name: "Running composer install"
+  command: docker run --rm -v {{ project_dir }}/api/html:/app -w /app composer install
+
+- name: "Dumping auto loader"
+  command: docker run --rm -v {{ project_dir }}/api/html:/app -w /app composer dump-autoload
+
+- name: "Starting API server using docker-compose"
+  docker_service:
+    project_src: "{{ working_dir }}/api"
+    state: present
+
+- name: "Instsalling mysql lib (PDO)"
+  command: docker exec {{ container_name }} bash -c 'docker-php-ext-install pdo_mysql'
+
+- name: "Change owner to www-data:www-data in apache directory"
+  command: docker exec {{ container_name }} bash -c 'chown www-data:www-data -R /var/www/html'
+
+- name: "Migrating database"
+  command: docker exec {{ container_name }} php artisan migrate --force
+
+- name: "Seeding data"
+  command: docker exec {{ container_name }} php artisan db:seed --force
+
+# - name: "Generating secret key"
+#   command: docker exec {{ container_name }} php artisan jwt:secret --force
+
+- name: "Copying apache2 configuration file out of container"
+  command: docker cp {{ container_name }}:/etc/apache2/sites-available/000-default.conf 
+          {{ working_dir }}/api/
+
+- name: "Adding sub directory to apache2 configuration files"
+  replace:
+    path: "{{ working_dir }}/api/000-default.conf"
+    regexp: 'html'
+    replace: 'html/public'
+    
+- name: "Copying apache2 configuration file to container"
+  command: docker cp {{ working_dir }}/api/000-default.conf 
+          {{ container_name }}:/etc/apache2/sites-available/
+
+- name: "Enabling mod rewirte in apache2"
+  command: docker exec {{ container_name }} a2enmod rewrite
+
+- name: "Reload apache2 config"
+  command: docker exec {{ container_name }} service apache2 reload

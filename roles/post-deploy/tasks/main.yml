@@ -1,5 +1,7 @@
 ---
-- name: "Delete temporary directory"
+- name: "Removing working directory"
   file:
-    path: "{{ temporary_dir }}"
+    path: "{{ working_dir }}"
     state: absent
+  become: true
+  become_user: root
