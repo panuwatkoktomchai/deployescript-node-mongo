@@ -57,8 +57,8 @@
 - name: "Seeding data"
   command: docker exec {{ container_name }} php artisan db:seed --force
 
-- name: "Generating secret key"
-  command: docker exec {{ container_name }} php artisan jwt:secret --force
+# - name: "Generating secret key"
+#   command: docker exec {{ container_name }} php artisan jwt:secret --force
 
 - name: "Copying apache2 configuration file out of container"
   command: docker cp {{ container_name }}:/etc/apache2/sites-available/000-default.conf 

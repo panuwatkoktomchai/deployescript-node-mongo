@@ -1,22 +1,22 @@
 version: "3.5"
 services:
-  ais-cms:
+  w4l-cms:
     image: nginx
     container_name: {{ container_name }}
-    hostname: ais-cms
+    hostname: w4l-cms
     volumes:
       - "{{ project_dir }}/cms/html:/usr/share/nginx/html"
     networks:
-      - ais
+      - w4l
       - main
     environment:
       API_URL: "{{ api.api_url }}"
     restart: always
 
 networks:
-  ais:
+  w4l:
     external:
-      name: ais-network
+      name: w4l-network
   main:
     external:
       name: main-network
