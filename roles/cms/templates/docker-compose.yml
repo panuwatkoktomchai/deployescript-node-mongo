@@ -6,6 +6,8 @@ services:
     hostname: w4l-cms
     volumes:
       - "{{ project_dir }}/cms/html:/usr/share/nginx/html"
+    ports:
+      - "8080:80"
     networks:
       - w4l
       - main

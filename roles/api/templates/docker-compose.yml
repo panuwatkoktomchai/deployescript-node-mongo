@@ -8,8 +8,6 @@ services:
       - "{{ project_dir }}/api/html:/var/www/html"
     networks:
       - w4l
-    ports:
-      - "8080:80"
     environment:
       DB_HOST: "{{ db.container_name }}"
       DB_PORT: "3306"
