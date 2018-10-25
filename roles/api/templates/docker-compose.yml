@@ -8,6 +8,7 @@ services:
       - "{{ project_dir }}/api/html:/var/www/html"
     networks:
       - w4l
+      - main
     environment:
       DB_HOST: "{{ db.container_name }}"
       DB_PORT: "3306"
@@ -23,3 +24,6 @@ networks:
   w4l:
     external:
       name: w4l-network
+  main:
+    external:
+      name: main-network
