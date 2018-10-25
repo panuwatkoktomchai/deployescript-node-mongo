@@ -1,0 +1,7 @@
+---
+server:
+  hosts:
+    prod-02.piesoft.net:
+      ansible_user: piesoft
+      ansible_port: 2020
+  
