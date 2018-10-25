@@ -51,14 +51,20 @@
 - name: "Change owner to www-data:www-data in apache directory"
   command: docker exec {{ container_name }} bash -c 'chown www-data:www-data -R /var/www/html'
 
+- name: "Create .env to project"
+  command: docker exec {{ container_name }} bash -c 'cd /var/www/html && cp .env.example .env'
+
 - name: "Migrating database"
   command: docker exec {{ container_name }} php artisan migrate --force
 
 - name: "Seeding data"
   command: docker exec {{ container_name }} php artisan db:seed --force
 
-# - name: "Generating secret key"
-#   command: docker exec {{ container_name }} php artisan jwt:secret --force
+- name: "Generating key"
+  command: docker exec {{ container_name }} php artisan key:generate --force
+
+- name: "Install Passport"
+  command: docker exec {{ container_name }} php artisan passport:install
 
 - name: "Copying apache2 configuration file out of container"
   command: docker cp {{ container_name }}:/etc/apache2/sites-available/000-default.conf 
