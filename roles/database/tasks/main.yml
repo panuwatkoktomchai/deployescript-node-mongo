@@ -1,0 +1,31 @@
+---
+- name: "Sending docker-compose to server"
+  template:
+    src: "{{ item }}"
+    dest: "{{ working_dir }}/db/"
+  with_items:
+    - "docker-compose.yml"
+
+- name: "Removing existing db container"
+  docker_service:
+    project_src: "{{ working_dir }}/db"
+    state: absent
+
+- name: "Freshing data"
+  file:
+    path: "{{ project_dir }}/db"
+    state: absent
+  become: yes
+  become_user: root
+
+- name: "Starting mariadb using docker-compose"
+  docker_service:
+    project_src: "{{ working_dir }}/db"
+    state: present
+
+- name: "Testing mariadb connection"
+  command: docker exec {{ container_name }} mysqlshow -u {{ user }} -p{{ password }}
+  register: result
+  until: result.rc == 0
+  retries: 10
+  delay: 3  

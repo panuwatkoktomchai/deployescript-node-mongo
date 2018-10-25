@@ -1,0 +1,29 @@
+version: "3.5"
+services:
+  w4l-api:
+    image: php:7.1-apache
+    container_name: {{ container_name }}
+    hostname: w4l-api
+    volumes:
+      - "{{ project_dir }}/api/html:/var/www/html"
+    networks:
+      - w4l
+      - main
+    environment:
+      DB_HOST: "{{ db.container_name }}"
+      DB_PORT: "3306"
+      DB_USERNAME: "{{ db.user }}" 
+      DB_PASSWORD: "{{ db.password }}"
+      DB_DATABASE: "{{ db.database }}"
+      DB_CONNECTION: "mysql"
+      APP_URL: "{{ api_url }}"
+      APP_DEBUG: "false"
+    restart: always
+
+networks:
+  w4l:
+    external:
+      name: w4l-network
+  main:
+    external:
+      name: main-network

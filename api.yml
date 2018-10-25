@@ -4,5 +4,4 @@
     - "common"
     - "database"
     - "api"
-    - "cms"
     - "post-deploy"

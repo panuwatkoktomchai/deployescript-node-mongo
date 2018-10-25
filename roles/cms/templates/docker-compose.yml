@@ -1,0 +1,24 @@
+version: "3.5"
+services:
+  w4l-cms:
+    image: nginx
+    container_name: {{ container_name }}
+    hostname: w4l-cms
+    volumes:
+      - "{{ project_dir }}/cms/html:/usr/share/nginx/html"
+    ports:
+      - "8080:80"
+    networks:
+      - w4l
+      - main
+    environment:
+      API_URL: "{{ api.api_url }}"
+    restart: always
+
+networks:
+  w4l:
+    external:
+      name: w4l-network
+  main:
+    external:
+      name: main-network

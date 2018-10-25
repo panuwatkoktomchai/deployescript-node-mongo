@@ -1,35 +1,49 @@
 ---
-- name: "Create temporary directory"
+- name: "Cleaning working direcotry"
   file:
-    path: "{{ temporary_dir }}/{{ item }}"
-    state: directory
-  with_items:
-    - "key"
-    - "code"
-    - "composefile"
-    - "apache"
-
-- name: "Create mount directory"
-  file:
-    path: "{{ project_dir }}/{{ item }}"
-    state: directory
-  with_items:
-    - "code/website"
-    - "apache"
-    - "db"
+    path: "{{ working_dir }}"
+    state: absent
   become: true
   become_user: root
 
-- name: "Create docker networks"
-  shell: docker network create {{ item }}
+- name: "Creating working directory"
+  file:
+    path: "{{ working_dir }}"
+    state: directory
+    owner: "{{ ansible_user }}"
+    group: root
+  become: true
+  become_user: root
+
+- name: "Installing python pip"
+  apt:
+    name: python-pip
+  become: yes
+  become_user: root
+
+- name: "Installing docker-py via pip"
+  pip:
+    name: "{{ item }}"
+  with_items:
+    - "docker-compose"
+  become: yes
+  become_user: root
+
+- name: "Create common working dir"
+  file:
+    path: "{{ working_dir }}/common"
+    state: directory
+
+- name: "Sending Deploy key to target server"
+  copy:
+    src: deploy-key
+    dest: "{{ working_dir }}/common/"
+    mode: 0600
+
+- name: "Creating docker networks"
+  docker_network:
+    name: "{{ item }}"
+    state: "present"
   with_items:
     - "main-network"
-    - "apiwater4life-network"
-  ignore_errors: yes
-
-- name: "Remove running container"
-  shell: docker rm -f {{ item }}
-  with_items:
-    - "{{ php_container_name }}"
-    - "{{ db_container_name }}"
-  ignore_errors: yes
+    - "w4l-network"
