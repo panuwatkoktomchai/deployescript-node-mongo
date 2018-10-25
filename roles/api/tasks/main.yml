@@ -66,6 +66,9 @@
 - name: "Install Passport"
   command: docker exec {{ container_name }} php artisan passport:install
 
+- name: "Storage path to public"
+  command: docker exec {{ container_name }} php artisan storage:link
+
 - name: "Copying apache2 configuration file out of container"
   command: docker cp {{ container_name }}:/etc/apache2/sites-available/000-default.conf 
           {{ working_dir }}/api/
