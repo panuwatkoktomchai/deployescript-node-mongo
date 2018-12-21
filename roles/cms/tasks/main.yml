@@ -1,5 +1,5 @@
 ---
-- name: "Including variable from database roles"
+- name: "Include variable from api roles"
   include_vars:
     file: roles/api/vars/main.yml
     name: api
@@ -11,12 +11,12 @@
   with_items:
     - "docker-compose.yml"
 
-- name: "Removing existing container"
+- name: "Removing existing API container"
   docker_service:
     project_src: "{{ working_dir }}/cms"
     state: absent
 
-- name: "Freshing data in proeject directory"
+- name: "Freshing data"
   file:
     path: "{{ project_dir }}/cms"
     state: absent
@@ -27,40 +27,61 @@
   git:
     repo: "{{ cms_repo }}"
     version: "{{ cms_branch }}"
-    dest: "{{ working_dir }}/cms/html"
+    dest: "{{ project_dir }}/cms/html"
     accept_hostkey: yes
     force: yes
     key_file: "{{ working_dir }}/common/deploy-key"
-
-- name: "Installing vue packages using yarn"
-  command: docker run --rm -v {{ working_dir }}/cms/html:/app -w /app 
-           node:10.10 yarn add @vue/cli @vue/cli-init @vue/cli-service-global @vue/cli-service nuxt vue-router vuex bootstrap-vue
-
-- name: "Installing packages from 'package.json' using npm"
-  command: docker run --rm -v {{ working_dir }}/cms/html:/app -w /app 
-           node:10.10 npm install
-
-- name: "Installing packages from 'package.json' using yarn"
-  command: docker run --rm -v {{ working_dir }}/cms/html:/app -w /app 
-           node:10.10 yarn install
-
-- name: "Building application to HTML, CSS, JS files"      
-  command: docker run --rm -v {{ working_dir }}/cms/html:/app -w /app
-           node:10.10 yarn build
-
-- name: "Creating cms directory"
-  file:
-    path: "{{ project_dir }}/cms/html"
-    state: directory
-  become: true
+  become: yes
   become_user: root
 
-- name: "Copying builded files to Project directory"
-  command: rsync -Pav {{ working_dir }}/cms/html/dist/ {{ project_dir }}/cms/html/
-  become: true
-  become_user: root
+- name: "Running composer install"
+  command: docker run --rm -v {{ project_dir }}/cms/html:/app -w /app composer install
 
-- name: "Starting Front-end server using docker-compose"
+- name: "Starting cms using docker-compose"
   docker_service:
     project_src: "{{ working_dir }}/cms"
     state: present
+
+- name: "Change owner to www-data:www-data in apache directory"
+  command: docker exec {{ container_name }} bash -c 'chown www-data:www-data -R /var/www/html'
+
+- name: "Copying php.ini-production configuration file out of container"
+  command: docker cp {{ container_name }}:/usr/local/etc/php/php.ini-production
+          {{ working_dir }}/cms/php.ini
+
+- name: "Replace text to php.ini configuration files"
+  replace:
+    path: "{{ working_dir }}/cms/php.ini"
+    regexp: ';extension=curl'
+    replace: 'extension=curl'
+
+- name: "Replace text to php.ini configuration files"
+  replace:
+    path: "{{ working_dir }}/cms/php.ini"
+    regexp: ';extension=mbstring'
+    replace: 'extension=mbstring'
+
+- name: "Replace text to php.ini configuration files"
+  replace:
+    path: "{{ working_dir }}/cms/php.ini"
+    regexp: ';extension=openssl'
+    replace: 'extension=openssl'
+
+- name: "Replace text to php.ini configuration files"
+  replace:
+    path: "{{ working_dir }}/cms/php.ini"
+    regexp: ';extension=pgsql'
+    replace: 'extension=pgsql'
+
+- name: "Copying php.ini configuration file to container"
+  command: docker cp {{ working_dir }}/cms/php.ini 
+          {{ container_name }}:/usr/local/etc/php/conf.d/
+
+- name: "Change owner to root:staff in apache directory"
+  command: docker exec {{ container_name }} bash -c 'chown root:staff -R /usr/local/etc/php/conf.d/php.ini'
+
+- name: "Enabling mod rewirte in apache2"
+  command: docker exec {{ container_name }} a2enmod rewrite
+
+- name: "Reload apache2 config"
+  command: docker exec {{ container_name }} service apache2 reload

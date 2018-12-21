@@ -1,13 +1,13 @@
 version: "3.5"
 services:
   w4l-cms:
-    image: nginx
+    image: php:7.2.13-apache
     container_name: {{ container_name }}
     hostname: w4l-cms
-    volumes:
-      - "{{ project_dir }}/cms/html:/usr/share/nginx/html"
     ports:
-      - "8080:80"
+      - "3000:80"
+    volumes:
+      - "{{ project_dir }}/cms/html:/var/www/html"
     networks:
       - w4l
       - main
