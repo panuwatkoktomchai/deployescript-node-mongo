@@ -1,3 +1,4 @@
 # Container configuration
 container_name: "w4l.api"
+docker_image: node:11
 api_url: "http://{{ container_name }}"
