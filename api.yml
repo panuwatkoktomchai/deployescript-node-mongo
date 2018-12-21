@@ -2,6 +2,5 @@
 - hosts: server
   roles:
     - "common"
-    - "database"
     - "api"
     - "post-deploy"
