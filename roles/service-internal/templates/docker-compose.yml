@@ -1,0 +1,21 @@
+version: "3.5"
+services:
+  w4l-service-internal:
+    image: {{ docker_image }}
+    container_name: {{ container_name }}
+    hostname: w4l-service-internal
+    volumes:
+      - "{{ project_dir }}/service-internal/app:/usr/src/app"
+    networks:
+      - w4l
+      - main
+    restart: always
+    tty: yes
+
+networks:
+  w4l:
+    external:
+      name: w4l-network
+  main:
+    external:
+      name: main-network

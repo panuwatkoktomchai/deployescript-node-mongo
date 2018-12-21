@@ -1,0 +1,3 @@
+# Container configuration
+container_name: w4l.service.internal
+docker_image: node:11
