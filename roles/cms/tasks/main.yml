@@ -70,8 +70,8 @@
 - name: "Replace text to php.ini configuration files"
   replace:
     path: "{{ working_dir }}/cms/php.ini"
-    regexp: ';extension=pgsql'
-    replace: 'extension=pgsql'
+    regexp: ';extension=pdo_pgsql'
+    replace: 'extension=pdo_pgsql'
 
 - name: "Copying php.ini configuration file to container"
   command: docker cp {{ working_dir }}/cms/php.ini 
