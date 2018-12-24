@@ -1,0 +1,2 @@
+service_branch: "deployment"
+service_repo: "git@git.piesoft.net:nuioutsource/service-files.git"
