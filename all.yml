@@ -5,6 +5,7 @@
     - "database"
     - "service-external"
     - "service-internal"
+    - "service-file"
     - "api"
     - "cms"
     - "post-deploy"
