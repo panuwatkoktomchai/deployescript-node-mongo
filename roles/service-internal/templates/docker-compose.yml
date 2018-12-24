@@ -5,7 +5,7 @@ services:
     container_name: {{ container_name }}
     hostname: w4l-service-internal
     volumes:
-      - "{{ project_dir }}/service-internal/app:/usr/src/app"
+      - "{{ project_dir }}/service-internal:/usr/src/app"
     networks:
       - w4l
       - main

@@ -22,7 +22,7 @@
   git:
     repo: "{{ service_repo }}"
     version: "{{ service_branch }}"
-    dest: "{{ project_dir }}/service-internal/app"
+    dest: "{{ project_dir }}/service-internal"
     accept_hostkey: yes
     force: yes
     key_file: "{{ working_dir }}/common/deploy-key"
@@ -30,7 +30,7 @@
   become_user: root
 
 - name: "Running npm install"
-  command: docker run --rm -v {{ project_dir }}/service-internal/app:/usr/src/app --name {{ container_name }} -w /usr/src/app {{ docker_image }}
+  command: docker run --rm -v {{ project_dir }}/service-internal:/usr/src/app --name {{ container_name }} -w /usr/src/app {{ docker_image }}
            npm install
 
 - name: "Starting service internal using docker-compose"
