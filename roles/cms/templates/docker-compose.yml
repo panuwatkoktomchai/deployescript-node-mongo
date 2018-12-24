@@ -8,6 +8,8 @@ services:
       - "3000:80"
     volumes:
       - "{{ project_dir }}/cms/html:/var/www/html"
+      - "/var/www/w4l/images:/var/www/html/images"
+      - "/var/www/w4l/file:/var/www/html/file"
     networks:
       - w4l
       - main
