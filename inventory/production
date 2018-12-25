@@ -1,7 +1,7 @@
 ---
 server:
   hosts:
-    prod-02.piesoft.net:
-      ansible_user: piesoft
-      ansible_port: 2020
+    192.168.2.41:
+      ansible_user: mobile
+      ansible_port: 22
   
