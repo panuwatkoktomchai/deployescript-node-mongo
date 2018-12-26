@@ -1,2 +1,2 @@
-service_branch: deployment
+service_branch: "master"
 service_repo: "git@git.piesoft.net:nuioutsource/service-external.git"
