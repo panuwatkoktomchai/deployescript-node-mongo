@@ -1,11 +1,11 @@
 version: "3.5"
 services:
-  w4l-service-file:
+  w4l-service-files:
     image: {{ docker_image }}
     container_name: {{ container_name }}
-    hostname: w4l-service-file
+    hostname: w4l-service-files
     volumes:
-      - "{{ project_dir }}/service-file:/usr/src/app"
+      - "{{ project_dir }}/service-files:/usr/src/app"
     networks:
       - w4l
       - main

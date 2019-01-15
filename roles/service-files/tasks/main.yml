@@ -2,18 +2,18 @@
 - name: "Sending docker-compose to server"
   template:
     src: "{{ item }}"
-    dest: "{{ working_dir }}/service-file/"
+    dest: "{{ working_dir }}/service-files/"
   with_items:
     - "docker-compose.yml"
 
 - name: "Removing existing API container"
   docker_service:
-    project_src: "{{ working_dir }}/service-file"
+    project_src: "{{ working_dir }}/service-files"
     state: absent
 
 - name: "Freshing data"
   file:
-    path: "{{ project_dir }}/service-file"
+    path: "{{ project_dir }}/service-files"
     state: absent
   become: yes
   become_user: root
@@ -22,7 +22,7 @@
   git:
     repo: "{{ service_repo }}"
     version: "{{ service_branch }}"
-    dest: "{{ project_dir }}/service-file"
+    dest: "{{ project_dir }}/service-files"
     accept_hostkey: yes
     force: yes
     key_file: "{{ working_dir }}/common/deploy-key"
@@ -30,12 +30,12 @@
   become_user: root
 
 - name: "Running npm install"
-  command: docker run --rm -v {{ project_dir }}/service-file:/usr/src/app --name {{ container_name }} -w /usr/src/app {{ docker_image }}
+  command: docker run --rm -v {{ project_dir }}/service-files:/usr/src/app --name {{ container_name }} -w /usr/src/app {{ docker_image }}
            npm install
 
-- name: "Starting service file using docker-compose"
+- name: "Starting service files using docker-compose"
   docker_service:
-    project_src: "{{ working_dir }}/service-file"
+    project_src: "{{ working_dir }}/service-files"
     state: present
 
 - name: "npm install pm2 version 3.2.2"
