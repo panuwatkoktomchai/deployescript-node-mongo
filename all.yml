@@ -5,7 +5,7 @@
     - "database"
     - "service-external"
     - "service-internal"
-    - "service-file"
+    - "service-files"
     - "service-status"
     - "api"
     - "cms"
