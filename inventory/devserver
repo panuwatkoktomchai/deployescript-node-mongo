@@ -1,0 +1,7 @@
+---
+server:
+  hosts:
+    27.254.94.159:
+      ansible_user: piesoft
+      ansible_port: 2020
+  
