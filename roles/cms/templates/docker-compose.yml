@@ -1,15 +1,15 @@
 version: "3.5"
 services:
   w4l-cms:
-    image: php:7.2.13-apache
+    image: php:7.2.12-apache
     container_name: {{ container_name }}
     hostname: w4l-cms
     ports:
       - "3000:80"
     volumes:
       - "{{ project_dir }}/cms/html:/var/www/html"
-      - "/var/www/w4l/images:/var/www/html/images"
-      - "/var/www/w4l/file:/var/www/html/file"
+      - "{{ project_dir }}/cms/images:/var/www/html/images"
+      - "{{ project_dir }}/cms/file:/var/www/html/file"
     networks:
       - w4l
       - main
