@@ -23,27 +23,27 @@
   become: yes
   become_user: root
 
-- name: "Cloning source from git repository"
-  git:
-    repo: "{{ cms_repo }}"
-    version: "{{ cms_branch }}"
-    dest: "{{ project_dir }}/cms/html"
-    accept_hostkey: yes
-    force: yes
-    key_file: "{{ working_dir }}/common/deploy-key"
-  become: yes
-  become_user: root
+# - name: "Cloning source from git repository"
+#   git:
+#     repo: "{{ cms_repo }}"
+#     version: "{{ cms_branch }}"
+#     dest: "{{ project_dir }}/cms/html"
+#     accept_hostkey: yes
+#     force: yes
+#     key_file: "{{ working_dir }}/common/deploy-key"
+#   become: yes
+#   become_user: root
 
-- name: "Running composer install"
-  command: docker run --rm -v {{ project_dir }}/cms/html:/app -w /app composer install
+# - name: "Running composer install"
+#   command: docker run --rm -v {{ project_dir }}/cms/html:/app -w /app composer install
 
 - name: "Starting cms using docker-compose"
   docker_service:
     project_src: "{{ working_dir }}/cms"
     state: present
 
-- name: "Change owner to www-data:www-data in apache directory"
-  command: docker exec {{ container_name }} bash -c 'chown www-data:www-data -R /var/www/html'
+# - name: "Change owner to www-data:www-data in apache directory"
+#   command: docker exec {{ container_name }} bash -c 'chown www-data:www-data -R /var/www'
 
 - name: "Copying php.ini-production configuration file out of container"
   command: docker cp {{ container_name }}:/usr/local/etc/php/php.ini-production
