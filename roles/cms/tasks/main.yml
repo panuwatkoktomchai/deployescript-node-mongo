@@ -42,8 +42,8 @@
     project_src: "{{ working_dir }}/cms"
     state: present
 
-# - name: "Change owner to www-data:www-data in apache directory"
-#   command: docker exec {{ container_name }} bash -c 'chown www-data:www-data -R /var/www'
+- name: "Change owner to www-data:www-data in apache directory"
+  command: docker exec {{ container_name }} bash -c 'chown www-data:www-data -R /var/www'
 
 - name: "Copying php.ini-production configuration file out of container"
   command: docker cp {{ container_name }}:/usr/local/etc/php/php.ini-production
