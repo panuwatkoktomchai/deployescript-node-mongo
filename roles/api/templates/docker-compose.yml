@@ -6,6 +6,10 @@ services:
     hostname: w4l-api
     volumes:
       - "{{ project_dir }}/api:/usr/src/app"
+    deploy:
+      resources:
+        limits:
+          cpus: '0.15'
     networks:
       - w4l
       - main

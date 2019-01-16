@@ -6,6 +6,10 @@ services:
     hostname: w4l-service-internal
     volumes:
       - "{{ project_dir }}/service-internal:/usr/src/app"
+    deploy:
+      resources:
+        limits:
+          cpus: '0.15'
     networks:
       - w4l
       - main
