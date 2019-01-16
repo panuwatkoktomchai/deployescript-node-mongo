@@ -6,6 +6,10 @@ services:
     hostname: w4l-service-external
     volumes:
       - "{{ project_dir }}/service-external:/usr/src/app"
+    deploy:
+      resources:
+        limits:
+          cpus: '0.15'
     networks:
       - w4l
       - main

@@ -10,6 +10,10 @@ services:
       - "{{ project_dir }}/cms/html:/var/www/html"
       - "{{ project_dir }}/cms/images:/var/www/html/images"
       - "{{ project_dir }}/cms/file:/var/www/html/file"
+    deploy:
+      resources:
+        limits:
+          cpus: '0.15'
     networks:
       - w4l
       - main
