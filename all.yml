@@ -6,7 +6,7 @@
     - "service-external"
     - "service-internal"
     - "service-files"
-    - "service-status"
+    # - "service-status"
     - "api"
     - "cms"
     - "post-deploy"
