@@ -4,6 +4,8 @@ services:
     image: {{ docker_image }}
     container_name: {{ container_name }}
     hostname: w4l-api
+    ports:
+      - "5000:5000"
     volumes:
       - "{{ project_dir }}/api:/usr/src/app"
     deploy:
