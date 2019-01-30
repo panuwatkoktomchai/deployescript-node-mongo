@@ -18,20 +18,20 @@
   become: yes
   become_user: root
 
-# - name: "Cloning source from git repository"
-#   git:
-#     repo: "{{ api_repo }}"
-#     version: "{{ api_branch }}"
-#     dest: "{{ project_dir }}/api"
-#     accept_hostkey: yes
-#     force: yes
-#     key_file: "{{ working_dir }}/common/deploy-key"
-#   become: yes
-#   become_user: root
+- name: "Cloning source from git repository"
+  git:
+    repo: "{{ api_repo }}"
+    version: "{{ api_branch }}"
+    dest: "{{ project_dir }}/api"
+    accept_hostkey: yes
+    force: yes
+    key_file: "{{ working_dir }}/common/deploy-key"
+  become: yes
+  become_user: root
 
-# - name: "Running npm install"
-#   command: docker run --rm -v {{ project_dir }}/api:/usr/src/app --name {{ container_name }} -w /usr/src/app {{ docker_image }}
-#            npm install
+- name: "Running npm install"
+  command: docker run --rm -v {{ project_dir }}/api:/usr/src/app --name {{ container_name }} -w /usr/src/app {{ docker_image }}
+           npm install
 
 - name: "Starting service api using docker-compose"
   docker_service:
@@ -41,11 +41,11 @@
 - name: "npm install pm2 version 3.2.2"
   command: docker exec {{ container_name }} bash -c 'npm install pm2@3.2.2 -g'
 
-# - name: "Running PM2 Watch"
-#   command: docker exec -w /usr/src/app {{ container_name }} bash -c 'pm2 start --name api_dwr npm -- start --watch'
+- name: "Running PM2 Watch"
+  command: docker exec -w /usr/src/app {{ container_name }} bash -c 'pm2 start --name api_dwr npm -- start --watch'
 
-# - name: "Running PM2 Startup"
-#   command: docker exec -w /usr/src/app {{ container_name }} bash -c 'pm2 startup'
+- name: "Running PM2 Startup"
+  command: docker exec -w /usr/src/app {{ container_name }} bash -c 'pm2 startup'
 
-# - name: "Running PM2 Save"
-#   command: docker exec -w /usr/src/app {{ container_name }} bash -c 'pm2 save'
+- name: "Running PM2 Save"
+  command: docker exec -w /usr/src/app {{ container_name }} bash -c 'pm2 save'
