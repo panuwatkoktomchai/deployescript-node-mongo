@@ -124,17 +124,45 @@
   command: docker cp {{ working_dir }}/cms/apache2.conf
           {{ container_name }}:/etc/apache2/
 
-- name: "Removing apache2.conf configuration file to container"
-  command: sudo rm {{ working_dir }}/cms/apache2.conf
-
-- name: "Enabling mod rewirte in apache2"
+- name: "Enabling own apache2.conf"
   command: docker exec {{ container_name }} chown root:root /etc/apache2/apache2.conf
 
-- name: "Enabling mod rewirte in apache2"
+- name: "Enabling mod apache2.conf"
   command: docker exec {{ container_name }} chmod 644 /etc/apache2/apache2.conf
 
-- name: "Enabling mod rewirte in apache2"
+- name: "Rewirte in apache2"
   command: docker exec {{ container_name }} a2enmod rewrite
 
 - name: "Reload apache2 config"
   command: docker exec {{ container_name }} service apache2 reload
+
+# - name: "Removing apache2.conf configuration file"
+#   command: rm {{ working_dir }}/cms/apache2.conf
+#   become: yes
+#   become_user: root
+
+
+- name: "Sending docker-php-ext-sodium.ini to server"
+  template:
+    src: "{{ item }}"
+    dest: "{{ working_dir }}/cms/"
+  with_items:
+    - "docker-php-ext-sodium.ini"
+
+- name: "Copying docker-php-ext-sodium.ini configuration file to container"
+  command: docker cp {{ working_dir }}/cms/docker-php-ext-sodium.ini
+          {{ container_name }}:/usr/local/etc/php/conf.d/
+
+- name: "Enabling mod rewirte in apache2"
+  command: docker exec {{ container_name }} chown root:staff /usr/local/etc/php/conf.d/docker-php-ext-sodium.ini
+
+- name: "Enabling mod rewirte in apache2"
+  command: docker exec {{ container_name }} chmod 644 /usr/local/etc/php/conf.d/docker-php-ext-sodium.ini
+
+# - name: "Removing apache2.conf configuration file"
+#   command: rm {{ working_dir }}/cms/docker-php-ext-sodium.ini
+#   become: yes
+#   become_user: root
+
+- name: "Restart w4l.cms container"
+  command: docker restart {{ container_name }}
