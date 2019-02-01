@@ -28,4 +28,11 @@
   register: result
   until: result.rc == 0
   retries: 10
-  delay: 3  
+  delay: 3
+
+- name: "Downloading sql file to server"
+  command: wget  -O {{ working_dir }}/db/w4l.sql "https://storage.lepusastro.com/s/oyRHwCu3urMQ1lT"
+
+- name: "Copying sql file to container"
+  command: docker cp {{ working_dir }}/db/w4l.sql
+          {{ container_name }}:/
