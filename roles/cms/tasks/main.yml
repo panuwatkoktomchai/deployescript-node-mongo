@@ -11,7 +11,7 @@
   with_items:
     - "docker-compose.yml"
 
-- name: "Removing existing API container"
+- name: "Removing existing cms container"
   docker_service:
     project_src: "{{ working_dir }}/cms"
     state: absent
@@ -113,12 +113,8 @@
 - name: "Change owner to root:staff in apache directory"
   command: docker exec {{ container_name }} bash -c 'chown root:staff -R /usr/local/etc/php/conf.d/php.ini'
 
-- name: "Sending apache2.conf to server"
-  template:
-    src: "{{ item }}"
-    dest: "{{ working_dir }}/cms/"
-  with_items:
-    - "apache2.conf"
+- name: "Downloading apache2.conf to server"
+  command: curl https://storage.lepusastro.com/s/zvqQzdQaVDj2foj/download --output {{ working_dir }}/cms/apache2.conf
 
 - name: "Copying apache2.conf configuration file to container"
   command: docker cp {{ working_dir }}/cms/apache2.conf
@@ -136,18 +132,8 @@
 - name: "Reload apache2 config"
   command: docker exec {{ container_name }} service apache2 reload
 
-# - name: "Removing apache2.conf configuration file"
-#   command: rm {{ working_dir }}/cms/apache2.conf
-#   become: yes
-#   become_user: root
-
-
-- name: "Sending docker-php-ext-sodium.ini to server"
-  template:
-    src: "{{ item }}"
-    dest: "{{ working_dir }}/cms/"
-  with_items:
-    - "docker-php-ext-sodium.ini"
+- name: "Downloading docker-php-ext-sodium.ini to server"
+  command: curl https://storage.lepusastro.com/s/SwqgV5967j0n1AL/download --output {{ working_dir }}/cms/docker-php-ext-sodium.ini
 
 - name: "Copying docker-php-ext-sodium.ini configuration file to container"
   command: docker cp {{ working_dir }}/cms/docker-php-ext-sodium.ini
@@ -158,11 +144,6 @@
 
 - name: "Enabling mod rewirte in apache2"
   command: docker exec {{ container_name }} chmod 644 /usr/local/etc/php/conf.d/docker-php-ext-sodium.ini
-
-# - name: "Removing apache2.conf configuration file"
-#   command: rm {{ working_dir }}/cms/docker-php-ext-sodium.ini
-#   become: yes
-#   become_user: root
 
 - name: "Restart w4l.cms container"
   command: docker restart {{ container_name }}

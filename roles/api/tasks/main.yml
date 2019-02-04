@@ -38,6 +38,11 @@
     project_src: "{{ working_dir }}/api"
     state: present
 
+- name: "Downloading .env file to server"
+  command: curl https://storage.lepusastro.com/s/Eq9P1tqgVOFrez1/download --output {{ project_dir }}/api/.env
+  become: yes
+  become_user: root
+
 - name: "npm install pm2 version 3.2.2"
   command: docker exec {{ container_name }} bash -c 'npm install pm2@3.2.2 -g'
 

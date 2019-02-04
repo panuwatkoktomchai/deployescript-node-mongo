@@ -6,7 +6,7 @@
   with_items:
     - "docker-compose.yml"
 
-- name: "Removing existing API container"
+- name: "Removing existing internal container"
   docker_service:
     project_src: "{{ working_dir }}/service-internal"
     state: absent
@@ -37,6 +37,11 @@
   docker_service:
     project_src: "{{ working_dir }}/service-internal"
     state: present
+
+- name: "Downloading .env file to server"
+  command: curl https://storage.lepusastro.com/s/34QJKDqiD3bbXx3/download --output {{ project_dir }}/service-internal/.env
+  become: yes
+  become_user: root
 
 - name: "npm install pm2 version 3.2.2"
   command: docker exec {{ container_name }} bash -c 'npm install pm2@3.2.2 -g'
