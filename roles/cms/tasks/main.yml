@@ -34,6 +34,11 @@
   become: yes
   become_user: root
 
+- name: "Downloading .env file to server"
+  command: curl https://storage.lepusastro.com/s/OIfBNvelCEB7IXn/download --output {{ project_dir }}/cms/html/.env
+  become: yes
+  become_user: root
+
 - name: "Starting cms using docker-compose"
   docker_service:
     project_src: "{{ working_dir }}/cms"
