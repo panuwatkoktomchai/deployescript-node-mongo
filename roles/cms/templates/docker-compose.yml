@@ -17,8 +17,6 @@ services:
     networks:
       - w4l
       - main
-    environment:
-      API_URL: "{{ api.api_url }}"
     restart: always
 
 networks:
