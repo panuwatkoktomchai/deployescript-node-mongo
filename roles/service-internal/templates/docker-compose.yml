@@ -1,4 +1,4 @@
-version: "3.5"
+version: "2.4"
 services:
   w4l-service-internal:
     image: {{ docker_image }}
@@ -6,10 +6,11 @@ services:
     hostname: w4l-service-internal
     volumes:
       - "{{ project_dir }}/service-internal:/usr/src/app"
-    deploy:
-      resources:
-        limits:
-          cpus: '0.15'
+    cpus: 0.15
+    # deploy:
+    #   resources:
+    #     limits:
+    #       cpus: '0.15'
     networks:
       - w4l
       - main

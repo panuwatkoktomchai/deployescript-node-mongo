@@ -1,4 +1,4 @@
-version: "3.5"
+version: "2.4"
 services:
   w4l-api:
     image: {{ docker_image }}
@@ -8,10 +8,11 @@ services:
       - "5000:5000"
     volumes:
       - "{{ project_dir }}/api:/usr/src/app"
-    deploy:
-      resources:
-        limits:
-          cpus: '0.15'
+    cpus: 0.15
+    # deploy:
+    #   resources:
+    #     limits:
+    #       cpus: '0.15'
     networks:
       - w4l
       - main
