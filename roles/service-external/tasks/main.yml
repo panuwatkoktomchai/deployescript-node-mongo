@@ -29,6 +29,11 @@
   become: yes
   become_user: root
 
+- name: "Downloading .env file to server"
+  command: curl https://storage.lepusastro.com/s/n4eClPS4WF7zNcw/download --output {{ project_dir }}/service-external/.env
+  become: yes
+  become_user: root
+  
 - name: "Running npm install"
   command: docker run --rm -v {{ project_dir }}/service-external:/usr/src/app --name {{ container_name }} -w /usr/src/app {{ docker_image }}
            npm install
@@ -38,19 +43,16 @@
     project_src: "{{ working_dir }}/service-external"
     state: present
 
-- name: "Downloading .env file to server"
-  command: curl https://storage.lepusastro.com/s/n4eClPS4WF7zNcw/download --output {{ project_dir }}/service-external/.env
-  become: yes
-  become_user: root
 
-- name: "npm install pm2 version 3.2.2"
-  command: docker exec {{ container_name }} bash -c 'npm install pm2@3.2.2 -g'
 
-- name: "Running PM2 Watch"
-  command: docker exec -w /usr/src/app {{ container_name }} bash -c 'pm2 start --name service_external npm -- start --watch'
+# - name: "npm install pm2 version 3.2.2"
+#   command: docker exec {{ container_name }} bash -c 'npm install pm2@3.2.2 -g'
 
-- name: "Running PM2 Startup"
-  command: docker exec -w /usr/src/app {{ container_name }} bash -c 'pm2 startup'
+# - name: "Running PM2 Watch"
+#   command: docker exec -w /usr/src/app {{ container_name }} bash -c 'pm2 start --name service_external npm -- start --watch'
 
-- name: "Running PM2 Save"
-  command: docker exec -w /usr/src/app {{ container_name }} bash -c 'pm2 save'
+# - name: "Running PM2 Startup"
+#   command: docker exec -w /usr/src/app {{ container_name }} bash -c 'pm2 startup'
+
+# - name: "Running PM2 Save"
+#   command: docker exec -w /usr/src/app {{ container_name }} bash -c 'pm2 save'

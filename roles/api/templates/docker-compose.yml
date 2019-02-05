@@ -4,11 +4,15 @@ services:
     image: {{ docker_image }}
     container_name: {{ container_name }}
     hostname: w4l-api
+    command: "npm start"
     ports:
       - "5000:5000"
     volumes:
       - "{{ project_dir }}/api:/usr/src/app"
     cpus: 0.15
+    working_dir: /usr/src/app
+    environment:
+      - NODE_ENV=production
     # deploy:
     #   resources:
     #     limits:
@@ -18,6 +22,7 @@ services:
       - main
     restart: always
     tty: yes
+    
 
 networks:
   w4l:
