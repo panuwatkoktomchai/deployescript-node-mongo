@@ -1,0 +1,23 @@
+version: '3'
+services:
+  w4l-mobile-policy:
+    image: {{ docker_image }}
+    container_name: {{ container_name }}
+    ports:
+      - "8888:80"
+    working_dir: /usr/share/nginx/html
+    volumes:
+      - {{ project_dir }}/mobile-policy:/usr/share/nginx/html:rw
+    networks:
+      - w4l
+      - main
+    restart: always
+    tty: yes
+
+networks:
+  w4l:
+    external:
+      name: w4l-network
+  main:
+    external:
+      name: main-network

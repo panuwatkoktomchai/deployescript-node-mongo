@@ -9,4 +9,5 @@
     # - "service-status"
     - "api"
     - "cms"
+    - "mobilepolicy"
     - "post-deploy"
