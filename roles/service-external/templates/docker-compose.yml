@@ -1,4 +1,4 @@
-version: "2.4"
+version: "3"
 services:
   w4l-service-external:
     image: {{ docker_image }}
@@ -7,14 +7,13 @@ services:
     command: "npm start"
     volumes:
       - "{{ project_dir }}/service-external:/usr/src/app"
-    cpus: 0.15
     working_dir: /usr/src/app
     environment:
       - NODE_ENV=production
-    # deploy:
-    #   resources:
-    #     limits:
-    #       cpus: '0.15'
+    deploy:
+      resources:
+        limits:
+          cpus: '0.15'
     networks:
       - w4l
       - main

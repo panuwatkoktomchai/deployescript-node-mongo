@@ -1,4 +1,4 @@
-version: "3.5"
+version: "3"
 services:
   w4l-cms:
     image: php:7.2.12-apache
