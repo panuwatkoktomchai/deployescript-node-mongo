@@ -9,7 +9,7 @@ APP_KEY : "base64:KA2zgOeSnceUQr/GOoqD2M+Lr2iYnfYHhHWlkHxcWzk="
 APP_DEBUG : "false"
 
 ## Service Api (Change)
-APP_URL : "http://mobile.dwr.go.th/"
+APP_URL : "https://mobile.dwr.go.th/"
 
 DWR_URL : "w4l.api/v1.0"
 DWR_USER : "dws_user"
@@ -17,7 +17,7 @@ DWR_PASS : "dws_pass"
 PORT : "5000"
 
 ## Service Files (Change)
-PATH_UPLOAD_FILE : "http://mobile.dwr.go.th/"
+PATH_UPLOAD_FILE : "https://mobile.dwr.go.th/"
 
 DWR_UPLOAD_URL : "w4l.service.files/v1.0/upload"
 DWR_UPLOAD_PORT : "4000"
@@ -39,4 +39,4 @@ MAIL_USERNAME : "dwr4thailand@gmail.com"
 MAIL_PASSWORD : "Dwr4thai"
 
 ## Service Internal (Change)
-DWR_SOCKET : "http://api.mobile.dwr.go.th"
+DWR_SOCKET : "https://api.mobile.dwr.go.th"

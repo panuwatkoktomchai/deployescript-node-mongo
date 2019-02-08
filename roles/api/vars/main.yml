@@ -4,11 +4,6 @@ docker_image: "node:11.0.0"
 api_url: "http://{{ container_name }}"
 
 # Environment variables
-# DB_HOST : "w4l.db"
-# DB_PORT : "3306"
-# DB_NAME : "w4l"
-# DB_USER : "root"
-# DB_PASS : "mQsMKUXZjEKCmaFm"
 
 PORT : "5000"
 INTERVAL_STATUS : "30000"
