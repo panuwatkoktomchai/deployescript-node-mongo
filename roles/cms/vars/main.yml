@@ -40,3 +40,6 @@ MAIL_PASSWORD : "Dwr4thai"
 
 ## Service Internal (Change)
 DWR_SOCKET : "https://api.mobile.dwr.go.th"
+
+## Protcal HTTP,HTTPS
+REDIRECT_HTTPS : "true"
