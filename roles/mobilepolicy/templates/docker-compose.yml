@@ -3,8 +3,8 @@ services:
   w4l-mobile-policy:
     image: {{ docker_image }}
     container_name: {{ container_name }}
-    ports:
-      - "8888:80"
+    # ports:
+    #   - "8888:80"
     working_dir: /usr/share/nginx/html
     volumes:
       - {{ project_dir }}/mobile-policy:/usr/share/nginx/html:rw
