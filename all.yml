@@ -8,5 +8,5 @@
     - "service-files"
     - "api"
     - "cms"
-    - "mobilepolicy"
+    - "mobile"
     - "post-deploy"
