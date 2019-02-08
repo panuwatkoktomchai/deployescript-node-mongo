@@ -1,7 +1,7 @@
 ---
 server:
   hosts:
-    192.168.0.148:
+    192.168.0.147:
       ansible_user: piesoft
       ansible_port: 22
   
