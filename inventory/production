@@ -1,7 +1,7 @@
 ---
 server:
   hosts:
-    202.129.59.82:
+    202.129.59.85:
       ansible_user: mobile
       ansible_port: 22
   
