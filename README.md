@@ -24,16 +24,16 @@
     ```
     anible-playbook -i <inventory> <playbook>
     ```
-    - You can deploy on specific services one of these database, API, Front-end
+    - You can deploy on specific services one of these database, API, CMS
         
         Example database
         ```
-        ansible-playbook -i inventory/testserver database.yml
+        ansible-playbook -i inventory/testserver api.yml -vvvv
         ```
     - Or you also can deploy whole services
         All services
         ```
-        ansible-playbook -i inventory/testserver all.yml -e api_branch=master -e front_end_branch=master
+        ansible-playbook -i inventory/testserver all.yml -e api_branch=master -e cms_branch=master
         ```
     Note: api branch will be `develop` by default if `-e api_branch=<branch>` or `-e front_end_branch=<branch>` is not defined
 
