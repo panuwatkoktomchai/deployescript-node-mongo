@@ -11,6 +11,27 @@
   with_items:
     - "docker-compose.yml"
 
+- name: "Sending .env to server"
+  template:
+    src: "{{ item }}"
+    dest: "{{ working_dir }}/cms/"
+  with_items:
+    - ".env"
+
+- name: "Sending apache2.conf to server"
+  template:
+    src: "{{ item }}"
+    dest: "{{ working_dir }}/cms/"
+  with_items:
+    - "apache2.conf"
+
+- name: "Sending docker-php-ext-sodium.ini to server"
+  template:
+    src: "{{ item }}"
+    dest: "{{ working_dir }}/cms/"
+  with_items:
+    - "docker-php-ext-sodium.ini"
+
 - name: "Removing existing cms container"
   docker_service:
     project_src: "{{ working_dir }}/cms"
@@ -34,8 +55,8 @@
   become: yes
   become_user: root
 
-- name: "Downloading .env file to server"
-  command: curl https://storage.lepusastro.com/s/OIfBNvelCEB7IXn/download --output {{ project_dir }}/cms/html/.env
+- name: "Copying .env file to container"
+  command: cp {{ working_dir }}/cms/.env {{ project_dir }}/cms/html/.env
   become: yes
   become_user: root
 
@@ -118,9 +139,6 @@
 - name: "Change owner to root:staff in apache directory"
   command: docker exec {{ container_name }} bash -c 'chown root:staff -R /usr/local/etc/php/conf.d/php.ini'
 
-- name: "Downloading apache2.conf to server"
-  command: curl https://storage.lepusastro.com/s/zvqQzdQaVDj2foj/download --output {{ working_dir }}/cms/apache2.conf
-
 - name: "Copying apache2.conf configuration file to container"
   command: docker cp {{ working_dir }}/cms/apache2.conf
           {{ container_name }}:/etc/apache2/
@@ -136,9 +154,6 @@
 
 - name: "Reload apache2 config"
   command: docker exec {{ container_name }} service apache2 reload
-
-- name: "Downloading docker-php-ext-sodium.ini to server"
-  command: curl https://storage.lepusastro.com/s/SwqgV5967j0n1AL/download --output {{ working_dir }}/cms/docker-php-ext-sodium.ini
 
 - name: "Copying docker-php-ext-sodium.ini configuration file to container"
   command: docker cp {{ working_dir }}/cms/docker-php-ext-sodium.ini

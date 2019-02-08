@@ -1,4 +1,21 @@
 # Container configuration
 container_name: "w4l.api"
-docker_image: node:11.0.0
+docker_image: "node:11.0.0"
 api_url: "http://{{ container_name }}"
+
+# Environment variables
+# DB_HOST : "w4l.db"
+# DB_PORT : "3306"
+# DB_NAME : "w4l"
+# DB_USER : "root"
+# DB_PASS : "mQsMKUXZjEKCmaFm"
+
+PORT : "5000"
+INTERVAL_STATUS : "30000"
+LOGIN_INCORRECT : "5"
+UPDATE_CONFIG_URL : "http://w4l.service.internal:3000/v1.0/save_config"
+UPDATE_CONFIG_TOKEB : "5464372f-b619-545e-ac7d-7d516517d471"
+
+MAIL_SERVICE : "gmail"
+MAIL_USER : "dwr4thailand@gmail.com"
+MAIL_PASS : "Dwr4thai"

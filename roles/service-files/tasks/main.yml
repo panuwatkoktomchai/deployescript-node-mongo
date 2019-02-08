@@ -6,6 +6,13 @@
   with_items:
     - "docker-compose.yml"
 
+- name: "Sending .env to server"
+  template:
+    src: "{{ item }}"
+    dest: "{{ working_dir }}/service-files/"
+  with_items:
+    - ".env"
+
 - name: "Removing existing files container"
   docker_service:
     project_src: "{{ working_dir }}/service-files"
@@ -29,8 +36,8 @@
   become: yes
   become_user: root
 
-- name: "Downloading .env file to server"
-  command: curl https://storage.lepusastro.com/s/WMIdwLy4ByT0kTy/download --output {{ project_dir }}/service-files/.env
+- name: "Copying .env file to container"
+  command: cp {{ working_dir }}/service-files/.env {{ project_dir }}/service-files/.env
   become: yes
   become_user: root
   
@@ -42,17 +49,3 @@
   docker_service:
     project_src: "{{ working_dir }}/service-files"
     state: present
-
-
-
-# - name: "npm install pm2 version 3.2.2"
-#   command: docker exec {{ container_name }} bash -c 'npm install pm2@3.2.2 -g'
-
-# - name: "Running PM2 Watch"
-#   command: docker exec -w /usr/src/app {{ container_name }} bash -c 'pm2 start --name service_files npm -- start --watch'
-
-# - name: "Running PM2 Startup"
-#   command: docker exec -w /usr/src/app {{ container_name }} bash -c 'pm2 startup'
-
-# - name: "Running PM2 Save"
-#   command: docker exec -w /usr/src/app {{ container_name }} bash -c 'pm2 save'

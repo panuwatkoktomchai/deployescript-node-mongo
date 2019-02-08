@@ -1,10 +1,22 @@
 ---
+- name: "Include variable from database roles"
+  include_vars:
+    file: roles/database/vars/main.yml
+    name: db
+
 - name: "Sending docker-compose to server"
   template:
     src: "{{ item }}"
     dest: "{{ working_dir }}/service-external/"
   with_items:
     - "docker-compose.yml"
+
+- name: "Sending .env to server"
+  template:
+    src: "{{ item }}"
+    dest: "{{ working_dir }}/service-external/"
+  with_items:
+    - ".env"
 
 - name: "Removing existing external container"
   docker_service:
@@ -29,8 +41,8 @@
   become: yes
   become_user: root
 
-- name: "Downloading .env file to server"
-  command: curl https://storage.lepusastro.com/s/n4eClPS4WF7zNcw/download --output {{ project_dir }}/service-external/.env
+- name: "Copying .env file to container"
+  command: cp {{ working_dir }}/service-external/.env {{ project_dir }}/service-external/.env
   become: yes
   become_user: root
   
@@ -42,17 +54,3 @@
   docker_service:
     project_src: "{{ working_dir }}/service-external"
     state: present
-
-
-
-# - name: "npm install pm2 version 3.2.2"
-#   command: docker exec {{ container_name }} bash -c 'npm install pm2@3.2.2 -g'
-
-# - name: "Running PM2 Watch"
-#   command: docker exec -w /usr/src/app {{ container_name }} bash -c 'pm2 start --name service_external npm -- start --watch'
-
-# - name: "Running PM2 Startup"
-#   command: docker exec -w /usr/src/app {{ container_name }} bash -c 'pm2 startup'
-
-# - name: "Running PM2 Save"
-#   command: docker exec -w /usr/src/app {{ container_name }} bash -c 'pm2 save'
