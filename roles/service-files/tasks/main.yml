@@ -1,0 +1,51 @@
+---
+- name: "Sending docker-compose to server"
+  template:
+    src: "{{ item }}"
+    dest: "{{ working_dir }}/service-files/"
+  with_items:
+    - "docker-compose.yml"
+
+- name: "Sending .env to server"
+  template:
+    src: "{{ item }}"
+    dest: "{{ working_dir }}/service-files/"
+  with_items:
+    - ".env"
+
+- name: "Removing existing files container"
+  docker_service:
+    project_src: "{{ working_dir }}/service-files"
+    state: absent
+
+- name: "Freshing data"
+  file:
+    path: "{{ project_dir }}/service-files"
+    state: absent
+  become: yes
+  become_user: root
+
+- name: "Cloning source from git repository"
+  git:
+    repo: "{{ service_repo }}"
+    version: "{{ service_branch }}"
+    dest: "{{ project_dir }}/service-files"
+    accept_hostkey: yes
+    force: yes
+    key_file: "{{ working_dir }}/common/deploy-key"
+  become: yes
+  become_user: root
+
+- name: "Copying .env file to container"
+  command: cp {{ working_dir }}/service-files/.env {{ project_dir }}/service-files/.env
+  become: yes
+  become_user: root
+  
+- name: "Running npm install"
+  command: docker run --rm -v {{ project_dir }}/service-files:/usr/src/app --name {{ container_name }} -w /usr/src/app {{ docker_image }}
+           npm install
+
+- name: "Starting service files using docker-compose"
+  docker_service:
+    project_src: "{{ working_dir }}/service-files"
+    state: present

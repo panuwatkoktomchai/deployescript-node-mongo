@@ -1,12 +1,12 @@
 version: "3"
 services:
-  w4l-api:
+  w4l-service-external:
     image: {{ docker_image }}
     container_name: {{ container_name }}
-    hostname: w4l-api
+    hostname: w4l-service-external
     command: "npm start"
     volumes:
-      - "{{ project_dir }}/api:/usr/src/app"
+      - "{{ project_dir }}/service-external:/usr/src/app"
     working_dir: /usr/src/app
     environment:
       - NODE_ENV=production
@@ -19,7 +19,6 @@ services:
       - main
     restart: always
     tty: yes
-    
 
 networks:
   w4l:

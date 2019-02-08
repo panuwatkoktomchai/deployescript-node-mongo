@@ -6,7 +6,7 @@
   with_items:
     - "docker-compose.yml"
 
-- name: "Removing existing db container"
+- name: "Removing existing DB container"
   docker_service:
     project_src: "{{ working_dir }}/db"
     state: absent
@@ -28,4 +28,11 @@
   register: result
   until: result.rc == 0
   retries: 10
-  delay: 3  
+  delay: 3
+
+- name: "Downloading sql file to server"
+  command: curl https://storage.lepusastro.com/s/VPXksJZT2p2jqz8/download --output {{ working_dir }}/db/w4l.sql
+
+- name: "Copying sql file to container"
+  command: docker cp {{ working_dir }}/db/w4l.sql
+          {{ container_name }}:/

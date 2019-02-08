@@ -1,0 +1,7 @@
+---
+server:
+  hosts:
+    192.168.2.140:
+      ansible_user: pattarapon
+      ansible_port: 22
+  

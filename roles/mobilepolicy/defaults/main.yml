@@ -1,0 +1,2 @@
+service_branch: "master"
+service_repo: "git@git.piesoft.net:AndroidDeveloper/dwr-policy.git"

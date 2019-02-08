@@ -1,21 +1,17 @@
-version: "3.5"
+version: "3"
 services:
   w4l-database:
     image: mariadb:10.3
     container_name: {{ container_name }}
     hostname: w4l-db
-    ports:
-      - "{{ public_port }}:3306"
     volumes:
       - "{{ project_dir }}/db/data:/var/lib/mysql"
       - "{{ project_dir }}/db/config:/etc/mysql"
     networks:
       - w4l
     environment:
-      MYSQL_USER: "{{ user }}"
-      MYSQL_PASSWORD: "{{ password }}"
       MYSQL_DATABASE: "{{ database }}"
-      MYSQL_ROOT_PASSWORD: "{{ root_password }}"
+      MYSQL_ROOT_PASSWORD: "{{ password }}"
     restart: always
 networks:
   w4l:
