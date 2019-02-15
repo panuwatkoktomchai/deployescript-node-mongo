@@ -54,3 +54,16 @@
   docker_service:
     project_src: "{{ working_dir }}/service-internal"
     state: present
+  
+- name: "npm install pm2 version 3.2.2"
+  command: docker exec {{ container_name }} bash -c 'npm install pm2@3.2.2 -g'
+
+- name: "Running PM2 Watch"
+  command: docker exec {{ container_name }} bash -c 'pm2 start --name service_internal npm -- start --watch'
+
+- name: "Running PM2 Startup"
+  command: docker exec {{ container_name }} bash -c 'pm2 startup'
+
+- name: "Running PM2 Save"
+  command: docker exec {{ container_name }} bash -c 'pm2 save'
+
