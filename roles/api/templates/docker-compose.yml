@@ -5,6 +5,8 @@ services:
     container_name: {{ container_name }}
     hostname: w4l-api
     command: "npm start"
+    # ports:
+    #   - "5000:5000"
     volumes:
       - "{{ project_dir }}/api:/usr/src/app"
     working_dir: /usr/src/app
