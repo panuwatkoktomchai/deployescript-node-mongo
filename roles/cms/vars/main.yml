@@ -8,16 +8,10 @@ APP_ENV : "production"
 APP_KEY : "base64:KA2zgOeSnceUQr/GOoqD2M+Lr2iYnfYHhHWlkHxcWzk="
 APP_DEBUG : "false"
 
-## Service Api (Change)
-APP_URL : "https://mobile.dwr.go.th/"
-
 DWR_URL : "w4l.api/v1.0"
 DWR_USER : "dws_user"
 DWR_PASS : "dws_pass"
 PORT : "5000"
-
-## Service Files (Change)
-PATH_UPLOAD_FILE : "https://mobile.dwr.go.th/"
 
 DWR_UPLOAD_URL : "w4l.service.files/v1.0/upload"
 DWR_UPLOAD_PORT : "4000"
@@ -38,8 +32,32 @@ MAIL_ENCRYPTION : "tls"
 MAIL_USERNAME : "dwr4thailand@gmail.com"
 MAIL_PASSWORD : "Dwr4thai"
 
-## Service Internal (Change)
+
+### Production
+
+# Service Api 
+APP_URL : "https://mobile.dwr.go.th/"
+
+# Service Files (Change)
+PATH_UPLOAD_FILE : "https://mobile.dwr.go.th/"
+
+# Service Internal (Change)
 DWR_SOCKET : "https://api.mobile.dwr.go.th"
 
-## Protcal HTTP,HTTPS
+# Protcal HTTP,HTTPS
 REDIRECT_HTTPS : "true"
+
+
+### Test Server
+
+# ## Service Api
+# APP_URL : "http://192.168.0.147:3000/"
+
+# ## Service Files (Change)
+# PATH_UPLOAD_FILE : "http://192.168.0.147:4000/"
+
+# ## Service Internal (Change)
+# DWR_SOCKET : "http://192.168.0.147:5000"
+
+# ## Protcal HTTP,HTTPS
+# REDIRECT_HTTPS : "false"
