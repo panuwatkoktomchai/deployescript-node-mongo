@@ -6,3 +6,5 @@ port : "3306"
 database : "w4l"
 user : "root"
 password : "mQsMKUXZjEKCmaFm"
+
+sql_file : "w4l.sql"
