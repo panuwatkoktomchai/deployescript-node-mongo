@@ -40,7 +40,12 @@
   command: cp {{ working_dir }}/service-files/.env {{ project_dir }}/service-files/.env
   become: yes
   become_user: root
-  
+
+- name: "Removing node_modules"
+  command: rm -rf {{ project_dir }}/service-files/node_modules
+  become: yes
+  become_user: root
+
 - name: "Running npm install"
   command: docker run --rm -v {{ project_dir }}/service-files:/usr/src/app --name {{ container_name }} -w /usr/src/app {{ docker_image }}
            npm install
