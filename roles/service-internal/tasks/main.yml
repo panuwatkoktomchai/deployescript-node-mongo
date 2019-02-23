@@ -55,7 +55,26 @@
   command: docker run --rm -v {{ project_dir }}/service-internal:/usr/src/app --name {{ container_name }} -w /usr/src/app {{ docker_image }}
            npm install
 
+- name: "Running npm build"
+  command: docker run --rm -v {{ project_dir }}/service-internal:/usr/src/app --name {{ container_name }} -w /usr/src/app {{ docker_image }}
+           npm run build
+
 - name: "Starting service internal using docker-compose"
   docker_service:
     project_src: "{{ working_dir }}/service-internal"
     state: present
+
+- name: "Installing pm2"
+  command: docker exec {{ container_name }} npm install pm2@latest -g
+
+- name: "Update pm2"
+  command: docker exec {{ container_name }} pm2 update
+
+- name: "Pm2 running production"
+  command: docker exec {{ container_name }} pm2 start --name service_internal npm -- run production --watch
+
+- name: "Pm2 startup"
+  command: docker exec {{ container_name }} pm2 startup
+
+- name: "Pm2 save"
+  command: docker exec {{ container_name }} pm2 save

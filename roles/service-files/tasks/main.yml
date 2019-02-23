@@ -50,6 +50,10 @@
   command: docker run --rm -v {{ project_dir }}/service-files:/usr/src/app --name {{ container_name }} -w /usr/src/app {{ docker_image }}
            npm install
 
+- name: "Running build"
+  command: docker run --rm -v {{ project_dir }}/service-files:/usr/src/app --name {{ container_name }} -w /usr/src/app {{ docker_image }}
+            npm run build
+
 - name: "Starting service files using docker-compose"
   docker_service:
     project_src: "{{ working_dir }}/service-files"
