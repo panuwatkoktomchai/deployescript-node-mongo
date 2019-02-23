@@ -4,7 +4,7 @@ services:
     image: {{ docker_image }}
     container_name: {{ container_name }}
     hostname: w4l-api
-    command: "npm start"
+    command: "npm run production"
     # ports:
     #   - "5000:5000"
     volumes:
