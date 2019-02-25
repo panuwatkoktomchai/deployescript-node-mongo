@@ -45,6 +45,11 @@
   command: cp {{ working_dir }}/api/.env {{ project_dir }}/api/.env
   become: yes
   become_user: root
+
+- name: "Removing node_modules"
+  command: rm -rf {{ project_dir }}/api/node_modules
+  become: yes
+  become_user: root
   
 - name: "Running npm install"
   command: docker run --rm -v {{ project_dir }}/api:/usr/src/app --name {{ container_name }} -w /usr/src/app {{ docker_image }}

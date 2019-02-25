@@ -4,10 +4,10 @@ services:
     image: php:7.2.12-apache
     container_name: {{ container_name }}
     hostname: w4l-cms
+    # ports:
+    #   - "3000:80"
     volumes:
       - "{{ project_dir }}/cms/html:/var/www/html"
-      - "{{ project_dir }}/cms/images:/var/www/images"
-      - "{{ project_dir }}/cms/file:/var/www/file"
     deploy:
       resources:
         limits:

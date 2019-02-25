@@ -37,4 +37,13 @@
         ```
     Note: api branch will be `develop` by default if `-e api_branch=<branch>` or `-e front_end_branch=<branch>` is not defined
 
+- Restore database
+  ```
+  docker exec -it w4l.db bash 
+  ```
+  command restore
+  ```
+  mysql -u <user> -p<password> -h localhost <database> < <sql_file>
+  ```
+
 

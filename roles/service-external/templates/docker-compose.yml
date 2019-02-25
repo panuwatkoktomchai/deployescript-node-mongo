@@ -4,7 +4,7 @@ services:
     image: {{ docker_image }}
     container_name: {{ container_name }}
     hostname: w4l-service-external
-    command: "npm start"
+    command: "npm run production"
     volumes:
       - "{{ project_dir }}/service-external:/usr/src/app"
     working_dir: /usr/src/app

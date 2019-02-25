@@ -45,7 +45,12 @@
   command: cp {{ working_dir }}/service-external/.env {{ project_dir }}/service-external/.env
   become: yes
   become_user: root
-  
+
+- name: "Removing node_modules"
+  command: rm -rf {{ project_dir }}/service-external/node_modules
+  become: yes
+  become_user: root
+
 - name: "Running npm install"
   command: docker run --rm -v {{ project_dir }}/service-external:/usr/src/app --name {{ container_name }} -w /usr/src/app {{ docker_image }}
            npm install
