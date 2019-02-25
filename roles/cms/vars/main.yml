@@ -51,13 +51,14 @@ REDIRECT_HTTPS : "true"
 ### Test Server
 
 # ## Service Api
-# APP_URL : "http://192.168.0.147:3000/"
+# APP_URL : "https://w4l.piesoft.net/"
 
 # ## Service Files (Change)
-# PATH_UPLOAD_FILE : "http://192.168.0.147:4000/"
+# PATH_UPLOAD_FILE : "https://w4l.piesoft.net/"
 
 # ## Service Internal (Change)
-# DWR_SOCKET : "http://192.168.0.147:5000"
+# DWR_SOCKET : "https://api.w4l.piesoft.net"
 
 # ## Protcal HTTP,HTTPS
-# REDIRECT_HTTPS : "false"
+# REDIRECT_HTTPS : "true"
+

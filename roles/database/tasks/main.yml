@@ -31,7 +31,7 @@
   delay: 3
 
 - name: "Downloading sql file to server"
-  command: curl https://storage.lepusastro.com/s/3R4nZWKdvdJ2DOK/download --output {{ working_dir }}/db/{{ sql_file }}
+  command: curl https://storage.lepusastro.com/s/iXeMVwVopzmQoIN/download --output {{ working_dir }}/db/{{ sql_file }}
 
 - name: "Copying sql file to container"
   command: docker cp {{ working_dir }}/db/w4l.sql
