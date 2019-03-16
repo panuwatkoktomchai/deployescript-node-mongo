@@ -1,7 +1,0 @@
----
-server:
-  hosts:
-    staging-01.piesoft.net:
-      ansible_user: piesoft
-      ansible_port: 2020
-  

@@ -18,21 +18,18 @@
   become: yes
   become_user: root
 
-- name: "Starting mariadb using docker-compose"
+- name: "Cloning source from git repository"
+  git:
+    repo: "{{ db_repo }}"
+    version: "{{ db_branch }}"
+    dest: "{{ project_dir }}/db"
+    # accept_hostkey: yes
+    # force: yes
+    # key_file: "{{ working_dir }}/common/deploy-key"
+  become: yes
+  become_user: root
+
+- name: "Starting mongo-database using docker-compose"
   docker_service:
     project_src: "{{ working_dir }}/db"
     state: present
-
-- name: "Testing mariadb connection"
-  command: docker exec {{ container_name }} mysqlshow -u {{ user }} -p{{ password }}
-  register: result
-  until: result.rc == 0
-  retries: 10
-  delay: 3
-
-- name: "Downloading sql file to server"
-  command: curl https://storage.lepusastro.com/s/iXeMVwVopzmQoIN/download --output {{ working_dir }}/db/{{ sql_file }}
-
-- name: "Copying sql file to container"
-  command: docker cp {{ working_dir }}/db/w4l.sql
-          {{ container_name }}:/

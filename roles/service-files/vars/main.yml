@@ -1,7 +1,0 @@
-# Container configuration
-container_name: "w4l.service.files"
-docker_image: "node:11.0.0"
-
-# Environment variables
-PORT : "4000"
-FOLDER_PUBLIC : "public/"

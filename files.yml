@@ -1,6 +1,0 @@
----
-- hosts: server
-  roles:
-    - "common"
-    - "service-files"
-    - "post-deploy"

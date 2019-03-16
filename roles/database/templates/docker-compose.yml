@@ -1,23 +1,36 @@
-version: "3"
+version: '3'
+
 services:
-  w4l-database:
-    image: mariadb:10.3
-    container_name: {{ container_name }}
-    hostname: w4l-db
-    volumes:
-      - "{{ project_dir }}/db/data:/var/lib/mysql"
-      - "{{ project_dir }}/db/config:/etc/mysql"
-    networks:
-      - w4l
-      - main
-    environment:
-      MYSQL_DATABASE: "{{ database }}"
-      MYSQL_ROOT_PASSWORD: "{{ password }}"
+
+  mongo:
+    image: mongo:3.4
+    container_name: node-db
     restart: always
+    ports:
+      - 27017:27017
+    networks:
+      - main
+  mongo-express:
+    image: mongo-express:0.49
+    restart: always
+    ports:
+      - 8081:8081
+    networks:
+      - main
+  
+  node:
+    image: node:11.11
+    restart: always
+    container_name: node-test
+    volumes:
+      - /home/panuwat/Desktop/node-tutorial/app:/usr/src/app
+    working_dir: /usr/src/app
+    networks:
+      - main
+    command: > 
+      sh -c "npm install && node index.js"
+
 networks:
-  w4l:
-    external:
-      name: w4l-network
   main:
     external:
       name: main-network

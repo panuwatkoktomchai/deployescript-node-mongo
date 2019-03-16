@@ -1,10 +1,10 @@
 # Database configuration
-container_name: "w4l.db"
+container_name: "tutorial.db"
 
-host : "w4l.db"
+host : "tutorial.db"
 port : "3306"
-database : "w4l"
+database : "tutorial"
 user : "root"
 password : "mQsMKUXZjEKCmaFm"
 
-sql_file : "w4l.sql"
+sql_file : "tutorial.sql"

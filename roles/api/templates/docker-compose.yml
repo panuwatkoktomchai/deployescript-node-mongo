@@ -1,32 +1,28 @@
 version: "3"
 services:
-  w4l-api:
-    image: {{ docker_image }}
+  node-api:
+    image: node:11.11
     container_name: {{ container_name }}
-    hostname: w4l-api
-    command: "npm run production"
-    # ports:
-    #   - "5000:5000"
+    hostname: node-api
+    ports:
+      - "9000:3000"
     volumes:
       - "{{ project_dir }}/api:/usr/src/app"
     working_dir: /usr/src/app
     environment:
       - NODE_ENV=production
-    deploy:
-      resources:
-        limits:
-          cpus: '0.15'
+      - TZ=Asia/Bangkok
     networks:
-      - w4l
+      - nodetuterial
       - main
     restart: always
     tty: yes
     
 
 networks:
-  w4l:
+  nodetuterial:
     external:
-      name: w4l-network
+      name: node-network
   main:
     external:
       name: main-network

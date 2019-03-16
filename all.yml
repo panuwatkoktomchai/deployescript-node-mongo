@@ -3,10 +3,5 @@
   roles:
     - "common"
     - "database"
-    - "service-external"
-    - "service-internal"
-    - "service-files"
     - "api"
-    - "cms"
-    - "mobile"
-    - "post-deploy"
+

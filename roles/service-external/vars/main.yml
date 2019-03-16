@@ -1,9 +1,0 @@
-# Container configuration
-container_name: "w4l.service.external"
-docker_image: "node:11.0.0"
-
-# Environment variables
-
-DL_WEATHER_DAILIES_SOURCE_DOMAIN : "https://www.tmd.go.th/"
-
-SERVICE_FILES_IP : "http://w4l.service.files:4000"

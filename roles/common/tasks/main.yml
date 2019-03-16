@@ -1,4 +1,9 @@
 ---
+- name: "Removing working_dir"
+  command: rm -rf {{ working_dir }}/api/node_modules
+  become: yes
+  become_user: root
+
 - name: "Cleaning working direcotry"
   file:
     path: "{{ working_dir }}"
@@ -29,21 +34,10 @@
   become: yes
   become_user: root
 
-- name: "Create common working dir"
-  file:
-    path: "{{ working_dir }}/common"
-    state: directory
-
-- name: "Sending Deploy key to target server"
-  copy:
-    src: deploy-key
-    dest: "{{ working_dir }}/common/"
-    mode: 0600
-
 - name: "Creating docker networks"
   docker_network:
     name: "{{ item }}"
     state: "present"
   with_items:
     - "main-network"
-    - "w4l-network"
+    - "node-network"
